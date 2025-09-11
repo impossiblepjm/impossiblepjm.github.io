@@ -4,7 +4,7 @@ SEOTitle: 问琴的博客 | Wenqin Blog
 header-img: img/home-bg.jpg
 email: impossiblepjm@gmail.com
 description: "这里是 @Wenqin问琴 的个人博客，与你一起发现更大的世界 | 要做一个有 swag 的程序员"
-keyword: "问琴, Wenqin问琴, Wenqin, 鬼栈, 问琴的博客, Wenqin Blog, 博客, 个人网站, 互联网, Web, JavaScript, React, React Native, 前端, 设计"
+keyword: "问琴, Wenqin问琴, Wenqin, 问琴的博客, Wenqin Blog, 博客, 个人网站, 互联网, Web, JavaScript, React, React Native, 前端, 设计"
 url: "https://881119.xyz" # your host, for absolute URL
 baseurl: "" # for example, '/blog' if your blog hosted on 'host/blog'
 
@@ -13,10 +13,10 @@ future: true
 
 # SNS settings
 RSS: false
-weibo_username: huxpro
-zhihu_username: huxpro
+# weibo_username: huxpro
+zhihu_username: pan-jia-qian-9
 github_username: impossiblepjm
-twitter_username: huxpro
+# twitter_username: huxpro
 #facebook_username:  huxpro
 #linkedin_username:  firstname-lastname-idxxxx
 
@@ -69,13 +69,13 @@ netease_comment: false
 # ba_track_id: [your track id]
 
 # Google Analytics
-ga_track_id: "UA-49627206-1" # Format: UA-xxxxxx-xx
-ga_domain: huangxuan.me
+ga_track_id: "G-ED5BZBFN9G" # Format: UA-xxxxxx-xx
+ga_domain: impossiblepjm.github.io
 
 # Sidebar settings
 sidebar: true # whether or not using Sidebar.
 sidebar-about-description: "要做一个有 swag 的程序员 <br> React Team @ Meta"
-sidebar-avatar: https://github.com/Huxpro.png # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-avatar: https://hangzhou666666.oss-cn-hangzhou.aliyuncs.com/photos/Air%E7%A5%9E%E5%B0%BE%E5%85%B3%E5%B2%AD.jpg # use absolute URL, seeing it's used in both `/` and `/about/`
 
 # Featured Tags
 featured-tags: true # whether or not using Feature-Tags
