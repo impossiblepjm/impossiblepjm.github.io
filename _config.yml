@@ -13,10 +13,11 @@ future: true
 
 # SNS settings
 RSS: false
-# weibo_username: huxpro
+weibo_username: 奋斗的小明
 zhihu_username: pan-jia-qian-9
 github_username: impossiblepjm
-# twitter_username: huxpro
+twitter_username: really_darkful
+x_username: @really_darkful
 #facebook_username:  huxpro
 #linkedin_username:  firstname-lastname-idxxxx
 
@@ -59,7 +60,7 @@ kramdown:
       start_line: 1
 
 # Disqus settings
-disqus_username: hux
+disqus_username: unique_atom
 
 # Netease settings
 netease_comment: false
