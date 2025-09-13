@@ -13,7 +13,7 @@ future: true
 
 # SNS settings
 RSS: false
-weibo_username: 5043700630
+weibo_username: uniqueatom
 zhihu_username: pan-jia-qian-9
 github_username: impossiblepjm
 twitter_username: really_darkful
