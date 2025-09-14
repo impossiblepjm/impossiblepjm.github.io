@@ -5,7 +5,7 @@ header-img: img/home-bg.jpg
 email: impossiblepjm@gmail.com
 description: "这里是 @Wenqin问琴 的个人博客，与你一起发现更大的世界 | 要做一个有 swag 的程序员"
 keyword: "问琴, Wenqin问琴, Wenqin, 问琴的博客, Wenqin Blog, 博客, 个人网站, 互联网, Web, JavaScript, React, React Native, 前端, 设计"
-url: "https://881119.xyz" # your host, for absolute URL
+url: "https://www.881119.xyz" # your host, for absolute URL
 baseurl: "" # for example, '/blog' if your blog hosted on 'host/blog'
 
 # Publish posts or collection documents with a future date.
