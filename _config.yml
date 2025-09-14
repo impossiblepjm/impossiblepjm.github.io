@@ -16,7 +16,7 @@ RSS: false
 weibo_username: uniqueatom
 zhihu_username: pan-jia-qian-9
 github_username: impossiblepjm
-twitter_username: really_darkful
+x_username: really_darkful
 #facebook_username:  huxpro
 #linkedin_username:  firstname-lastname-idxxxx
 
@@ -35,7 +35,7 @@ exclude:
     "README.zh.md",
   ]
 anchorjs: true # if you want to customize anchor. check out line:181 of `post.html`
-# If you have timezone issue (e.g. #68) in China, uncomment to use this:
+# If you have timezone issue (e.g. #68) in China, uncgem install jekyll bundlergem install jekyll bundleromment to use this:
 #timezone: CN
 
 # Gems
@@ -74,7 +74,7 @@ ga_domain: impossiblepjm.github.io
 
 # Sidebar settings
 sidebar: true # whether or not using Sidebar.
-sidebar-about-description: "要做一个有 swag 的程序员"
+sidebar-about-description: "无法飞翔的翅膀，还会有意义吗?"
 sidebar-avatar: https://hangzhou666666.oss-cn-hangzhou.aliyuncs.com/photos/Air%E7%A5%9E%E5%B0%BE%E5%85%B3%E5%B2%AD.jpg # use absolute URL, seeing it's used in both `/` and `/about/`
 
 # Featured Tags
