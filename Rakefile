@@ -13,7 +13,9 @@ CONFIG = {
   'theme_package_version' => "0.1.0"
 }
 
-# Usage: rake post title="A Title" subtitle="A sub title"
+# Usage: rake post title="A Title" subtitle="A sub title" [subdir=_posts下的子目录名]
+# 在项目根执行，生成并直接放到 _posts/oracle
+# rake post title="Hello 2015" subtitle="Hello World, Hello Blog" subdir=oracle
 desc "Begin a new post in #{CONFIG['posts']}"
 task :post do
   abort("rake aborted: '#{CONFIG['posts']}' directory not found.") unless FileTest.directory?(CONFIG['posts'])
@@ -26,7 +28,13 @@ task :post do
     puts "Error - date format must be YYYY-MM-DD, please check you typed it correctly!"
     exit -1
   end
-  filename = File.join(CONFIG['posts'], "#{date}-#{slug}.#{CONFIG['post_ext']}")
+  # 支持通过 ENV['subdir'] 指定子目录，比如 subdir=oracle
+  posts_dir = CONFIG['posts']
+  if ENV['subdir'] && !ENV['subdir'].strip.empty?
+    posts_dir = File.join(posts_dir, ENV['subdir'])
+    Dir.mkdir(posts_dir) unless File.directory?(posts_dir)
+  end
+  filename = File.join(posts_dir, "#{date}-#{slug}.#{CONFIG['post_ext']}")
   if File.exist?(filename)
     abort("rake aborted!") if ask("#{filename} already exists. Do you want to overwrite?", ['y', 'n']) == 'n'
   end
@@ -39,7 +47,8 @@ task :post do
     post.puts "subtitle: \"#{subtitle.gsub(/-/,' ')}\""
     post.puts "date: #{date}"
     post.puts "author: \"Wenqin\""
-    post.puts "header-img: \"img/post-bg-2015.jpg\""
+    # post.puts "header-img: \"img/post-bg-2015.jpg\""
+    
     post.puts "tags: []"
     post.puts "---"
   end
