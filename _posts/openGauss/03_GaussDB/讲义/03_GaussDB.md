@@ -1,0 +1,416 @@
+# GaussDB
+
+## 1. 自定义函数
+
+### 1.1 什么是自定义函数
+
+在数据库里，自定义函数就像是自己编写的“小工具”，你可以自己写一段代码，打包成一个“工具”存到数据库里。之后无论谁需要这个功能，直接调用这个工具就行，不用再重复写代码。比如：你经常需要把手机号中间四位变成`****`，如果每次都手动改太麻烦。写个函数存起来，下次直接输入手机号就能自动处理。
+
+> 自定义函数：开发者自己编写并命名的PL/SQL代码块，通常用于计算或转换数据。
+>
+> 自定义函数的执行逻辑：接收输入参数，执行特定操作，返回结果。
+>
+> - 输入参数：0个或多个
+> - 返回结果：**必须返回结果且仅能返回一个结果**
+
+
+
+### 1.2 自定义函数语法
+
+创建或修改自定义函数的语法：
+
+~~~plsql
+CREATE [ OR REPLACE ]  FUNCTION  函数名称(
+    [参数名称 参数类型, 
+    参数名称 参数类型,    
+    ...]
+)
+RETURN 返回数据类型   --函数中的参数类型、返回值类型  不能声明长度
+IS
+  变量声明部分;
+BEGIN
+  逻辑部分;
+  RETURN 返回值; --返回值类型必须符合在定义函数时RETURN后面声明的类型
+[EXCEPTION 
+  异常处理部分]
+END;
+~~~
+
+调用函数的语法：
+
+1. 在SELECT中调用
+
+   ~~~plsql
+   SELECT 函数名称() ;
+   ~~~
+
+2. 在程序块中调用
+
+   ~~~plsql
+   BEGIN
+     RAISE NOTICE '%',func_hello();
+   END;
+   
+   ----------------------------------
+   DECLARE
+      v_value  varchar2(20);
+   BEGIN 
+      v_value := func_hello();
+      RAISE INFO '%', v_value;
+   END;
+   ~~~
+
+删除函数的语法：
+
+~~~plsql
+DROP FUNCTION 函数名称;
+~~~
+
+示例：
+
+~~~plsql
+/* 自定义函数 */
+CREATE OR REPLACE  FUNCTION  fun_hello()
+RETURN varchar   --函数中的参数类型、返回值类型  不能声明长度
+IS
+BEGIN
+  -- 返回值
+  RETURN 'hello world';
+END;
+
+/* DataGrip 里运行*/
+CREATE OR REPLACE FUNCTION fun_hello()
+RETURNS varchar
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    -- 可以在这里声明变量
+BEGIN
+    RETURN 'hello world';
+END;
+$$;
+
+/* 调用自定义函数 */
+-- 方式1：select
+select fun_hello();
+-- 方式2：plsql程序
+DECLARE
+  v_str varchar2(20);
+BEGIN
+  v_str := fun_hello(); 
+  raise notice '%',v_str();
+END;
+~~~
+
+
+
+### 1.3 自定义函数的使用
+
+#### 1.3.1 无参函数
+
+示例：获取当前的年月日
+
+~~~plsql
+-- sysdate 获取到的是：年月日时分秒毫秒   2024-08-10 22:54:52.000
+CREATE OR REPLACE FUNCTION getdate()
+RETURN VARCHAR2  
+IS
+BEGIN
+  -- 返回日期中的年月日
+  RETURN TO_CHAR(sysdate,'yyyy/MM/dd');
+END;
+~~~
+
+调用无参函数：
+
+~~~plsql
+SELECT getdate();
+~~~
+
+
+
+#### 1.3.2 有参函数
+
+示例：转换日期时间为毫秒值
+
+- 忽略日期时间数据的格式。
+
+~~~plsql
+CREATE OR REPLACE FUNCTION convert_millis(
+   input_date VARCHAR   -- 输入参数：只声明类型，不指定长度
+)
+RETURN BIGINT   -- 使用bigint类型来存储并返回毫秒值（毫秒值数据长度比大）
+IS
+    -- 声明一个带时区的时间戳变量，用于存储转换后的时间值
+    target_time TIMESTAMP WITH TIME ZONE; 
+    -- 声明一个 BIGINT 变量，用于存储最终计算的毫秒值
+    epoch_millis BIGINT;
+BEGIN
+    -- 1、将输入的日期格式的字符串转换为带时区的时间戳
+    target_time := input_date::TIMESTAMP WITH TIME ZONE;
+    
+    -- 2、计算自1970-01-01 00:00:00 UTC以来的毫秒数
+    -- 2.1、从时间戳中提取'秒'
+    -- 2.2、计算 秒 => 毫秒
+    -- 2.3、把计算后的毫秒值转换为bigint类型后，并赋值给变量
+    epoch_millis := (EXTRACT(EPOCH FROM target_time) * 1000)::BIGINT;
+    
+    RETURN epoch_millis;
+END;
+~~~
+
+- **参数接收**：函数接收一个`VARCHAR`类型的日期字符串，支持任意合法格式（如`'2023-10-01'`、`'2023/10/01 12:34:56.789'`等）。
+- **类型转换**：使用`::TIMESTAMP WITH TIME ZONE`将输入字符串隐式转换为带时区的时间戳类型，自动适配多种日期格式。
+  - `::` 是 GaussDB(及 PostgreSQL)中的类型转换符，将输入的字符串 `input_date` 转换为带时区的时间戳类型
+  - GaussDB支持隐式解析多种日期格式（如 `'2023-10-01 12:34:56+08'`、`'2023/10/01 12:34:56.789'`、`'20231001'` 等），无需显式指定格式。
+  - 如果输入字符串包含时区信息（如 `+08:00`），将自动转换为 UTC 时间；若未包含时区，默认使用数据库会话的时区设置。
+- **计算毫秒值**：
+  - `EXTRACT(EPOCH FROM ...)` 获取自Unix纪元（1970-01-01 00:00:00 UTC）起的秒数（含小数）。
+    - `EXTRACT`是GaussDB的日期时间函数，`EPOCH` 参数表示计算自 Unix 纪元（1970-01-01 00:00:00 UTC）到 `target_time` 的秒数（包括小数部分，例如 `1696156496.789`）。
+    - 例如，`2023-10-01 12:34:56.789 UTC` 对应的 `EPOCH` 值为 `1696156496.789`。
+  - 将秒数转换为毫秒数（1 秒 = 1000 毫秒）乘以1000将秒转换为毫秒，并用`::BIGINT`转换为整数类型。
+
+调用有参函数：
+
+~~~plsql
+begin 
+   raise notice '%', convert_millis('2024/05/18 14:25:39');  	
+end;
+~~~
+
+
+
+
+
+## 2. 存储过程
+
+### 2.1 什么是存储过程
+
+存储过程是被命名的PL/SQL块，存储于数据库中，是数据库对象的一种。应用程序可以调用存储过程，执行相应的逻辑。
+
+存储过程与自定义函数都可以封装一定的业务逻辑并返回结果，存在区别如下：
+
+1. 自定义函数中有返回值，且必须返回，仅返回一个值；存储过程没有返回值，可以通过传出参数返回多个值。
+2. 自定义函数可以在select语句中直接使用，而存储过程不能。存储过程多数是被PLSQL程序所调用。
+3. 自定义函数一般都是封装一个查询结果，而存储过程一般都封装一段事务代码。
+
+存储过程的优点：
+
+1. 使用存储过程对sql语句进行优化，提高sql语句的执行效率。
+   ​在执行存储过程时，系统会一次性的将存储过程中sql语句的数据加载出来，减少了和硬盘之间的I/O次数，提高了查询效率。
+2. 可以减少代码的重复开发。
+   存储过程可以将其中的代码进过编译后**存入数据库**，下次还需要使用这个代码时，无需重新编写，可以之间从数据库中将上次编写好的代码调用出来。
+
+
+
+### 2.2 存储过程语法
+
+语法：
+
+~~~plsql
+CREATE [OR REPLACE] PROCEDURE procedure_name (  
+    [参数1 [IN | OUT | IN OUT] 数据类型,  
+    参数2 [IN | OUT | IN OUT] 数据类型,  -- 参数只指定类型，不指定长度
+    ...]  
+)
+AS|IS
+    -- 声明变量、游标  
+BEGIN  
+    -- 执行逻辑（DML、事务控制等）  
+EXCEPTION  
+    -- 异常处理  
+END;
+~~~
+
+- 解释说明：
+
+  - `CREATE [OR REPLACE]`：若对象不存在，则执行 CREATE；若存在，则执行 REPLACE。
+
+  - `PROCEDURE`：存储过程关键字。
+  - 存储过程参数有三种模式：
+    1. `IN`（默认）：输入参数。 （在调用存储过程时传递给过程的一个具体的数据）
+    2. `OUT`：输出参数，用于返回程序运行结果。(变量)
+    3. `IN OUT`：输入输出参数 。
+
+
+调用存储过程：
+
+~~~postgresql
+-- 方式1：使用call
+call 存储过程名称(); -- 当有 OUT 或 IN OUT 参数时，不可使用
+
+-- 方式2：在plsql代码块
+begin
+	存储过程名称();
+end;
+~~~
+
+示例：
+
+~~~postgresql
+-- 创建或修改存储过程
+CREATE OR REPLACE PROCEDURE proc_emp   -- 无参的存储过程
+AS
+  -- 声明变量
+  v_ename emp.ename%TYPE;
+  v_sal   emp.sal%TYPE;
+BEGIN
+  SELECT ename, sal
+  INTO   v_ename, v_sal
+  FROM   emp
+  WHERE  empno = 7788;
+
+  RAISE NOTICE '%,%',v_ename, v_sal;
+END;
+
+
+-- 调用存储过程
+-- 方式1：
+CALL proc_emp();  -- 没有参数
+
+-- 方式2：
+BEGIN
+  proc_emp;
+END;
+~~~
+
+
+
+### 2.3 存储过程的使用
+
+#### 2.3.1无参数的存储过程
+
+案例：创建无参数的存储过程。输出customer表中所有客户姓名
+
+~~~plsql
+-- 创建或替换存储过程
+create or replace procedure proc_customer
+is
+     -- 声明游标变量（存储查询到的所有客户数据）
+	cursor cur_customer is select * from customer;
+begin
+	for v_customer in cur_customer loop
+		raise info '%',v_customer.customer_name;
+	end loop;
+end;
+~~~
+
+调用存储过程：
+
+~~~postgresql
+call proc_customer();
+~~~
+
+
+
+#### 2.3.2 IN参数的存储过程
+
+案例：创建IN参数的存储过程。传入信用评分，查询大于该信用评分的所有客户，打印客户姓名和手机号
+
+~~~plsql
+-- 创建带输入参数的存储过程
+create or replace procedure proc_customer_by_credit(
+    -- 输入参数： IN 模式
+    v_credit_score IN customer.credit_score%type -- IN可以省略，默认为IN
+)
+is
+begin
+ for v_customer in (select * from customer where credit_score >=v_credit_score) loop
+ 	raise info '姓名：% , 手机号：%',v_customer.customer_name,v_customer.mobile;
+ end loop;
+end;
+~~~
+
+调用IN参存储过程：
+
+~~~postgresql
+-- call方式调用存储过程
+call proc_customer_by_credit(60);
+
+-- plsql程序中调用存储过程
+declare
+	score int :=60;
+begin
+	proc_customer_by_credit(score); 
+end;
+~~~
+
+
+
+#### 2.3.3 OUT参数的存储过程
+
+案例：创建OUT参数的存储过程。传入的客户手机号，查询出客户信息并以输出参数的方式返回
+
+~~~plsql
+-- 创建或修改带有OUT参数的存储过程
+create or replace procedure proc_customer_by_mobile(
+    v_mobile IN customer.mobile%type,  -- 输入参数(手机号)
+    v_customer OUT customer%rowtype    -- 输出参数(客户表行记录变量)
+)
+is
+begin
+    -- 根据客户手机号查询到客户信息，并把客户信息存储到行记录变量(输出参数)
+	select * into v_customer from customer where mobile = v_mobile;
+end;
+~~~
+
+调用OUT参数存储过程：
+
+~~~plsql
+declare
+    -- 声明变量，做为存储过程的输出参数使用
+	v_customer customer%rowtype;
+begin
+    -- 调用存储过程。第2个参数为：输出参数（把查询到的客户数据	信息以输出参数方式返回）
+	proc_customer_by_mobile('13700003333',v_customer);
+	-- 通过 "输出参数变量" 获取字段下的数据值
+	raise info '姓名：% , 手机号：%',v_customer.customer_name,v_customer.mobile;
+end;
+~~~
+
+
+
+#### 2.3.4 IN/OUT参数的存储过程
+
+案例：创建IN/OUT参数的存储过程，传入的客户手机号，查询出客户信息并以输出参数的方式返回
+
+~~~PLSQL
+-- 创建或替换带IN/OUT参数的存储过程。
+create or replace procedure proc_customer(
+   v_customer in out customer%rowtype   --输入输出参数
+)
+is
+begin
+	select * into v_customer from customer where mobile = v_customer.mobile;
+end;
+~~~
+
+调用IN/OUT参数的存储过程：
+
+~~~plsql
+-- 调用带IN/OUT参数的存储过程
+declare
+	v_customer customer%rowtype;
+begin
+    -- 向行记录变量中的'mobile'数据进行赋值
+	v_customer.mobile := '13800001111';
+	-- 调用存储过程。传递的参数：行记录变量(包含手机号数据)
+	proc_customer(v_customer); -- 参数即是输入参数，又是输出参数
+	raise info '姓名：% , 手机号：%',v_customer.customer_name,v_customer.mobile;
+end;
+~~~
+
+
+
+## 3. 练习任务
+
+1. 创建函数，输入产品ID，返回该产品的平均放款金额。
+2. 创建函数，统计某客户的逾期总金额。
+3. 编写存储过程，根据客户ID和新的信用评分更新`customer`表，并记录操作日志到`error_log`表（需先创建该表）。
+4. 编写存储过程，根据输入的状态（如“逾期”、“正常”）动态查询`loan_disbursement`表，并返回符合条件的贷款ID和金额。
+5. 在存储过程中检查贷款申请金额是否超过产品规定的最大金额，若超限则抛出自定义异常`loan_limit_exceeded`，并记录到`error_log`表。
+6. 编写一个存储过程， 输入部门编号和加薪金额， 给某个部门的全体员工加薪。
+   - 但最多一次加薪不能超出1000， 超出1000后，在输出中给予提示，注意使用update 语句修改表中数据
+7. 把前面讲解事务时"转账"案例，修改为在存储过程中实现。要模拟出正常转账和异常转换两种情况。
+   - 异常转账：余额不足，无法实现扣款转账，事务回滚
+
