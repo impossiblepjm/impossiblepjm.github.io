@@ -56,9 +56,9 @@ layout: default
                 <!-- disqus 评论框 end -->
                 {% endif %}
 
-                {% if site.netease_comment %}
+                {% if site.giscus_comment %}
                 <!-- 网易云跟帖 评论框 start -->
-                <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                <div class="giscus"></div>
                 <!-- 网易云跟帖 评论框 end -->
                 {% endif %}
             </div>  
@@ -101,20 +101,25 @@ layout: default
   {% include mathjax_support.html %}
 {% endif %}
 
-{% if site.netease_comment %}
-<!-- 网易云跟帖JS代码 start -->
-<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
-<script>
-  var cloudTieConfig = {
-    url: document.location.href, 
-    sourceId: "",
-    productKey: "de25fc98a6fe48b3bc8a7ae765da99a0",
-    target: "cloud-tie-wrapper"
-  };
-  var yunManualLoad = true;
-  Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+{% if site.giscus_comment %}
+<!-- giscus JS代码 start -->
+<script src="https://giscus.app/client.js"
+        data-repo="impossiblepjm/impossiblepjm.github.io"
+        data-repo-id="R_kgDOPtW19w"
+        data-category="General"
+        data-category-id="DIC_kwDOPtW1984Cvf-L"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
 </script>
-<!-- 网易云跟帖JS代码 end -->
+<!-- giscus JS代码 end -->
 {% endif %}
 
 
