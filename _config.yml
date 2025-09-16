@@ -62,8 +62,8 @@ kramdown:
 # Disqus settings
 # disqus_username: unique_atom
 
-# Netease settings
-netease_comment: false
+# Giscus settings
+giscus_comment: true
 
 # Analytics settings
 # Baidu Analytics
