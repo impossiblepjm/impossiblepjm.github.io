@@ -67,7 +67,7 @@ giscus_comment: true
 
 # Analytics settings
 # Baidu Analytics
-ba_track_id: d5d8d224f2a25f15bc0adde7c78b08b5
+ba_track_id: [d5d8d224f2a25f15bc0adde7c78b08b5]
 
 # Google Analytics
 ga_track_id: "G-ED5BZBFN9G" # Format: UA-xxxxxx-xx
