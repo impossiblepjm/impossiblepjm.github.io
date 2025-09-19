@@ -993,7 +993,7 @@ samp {
   line-height: 25px;
 }
 .navbar-custom .navbar-brand:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 1);
 }
 .navbar-custom .nav li a {
   text-transform: uppercase;
@@ -1020,7 +1020,7 @@ samp {
   }
   .navbar-custom .navbar-brand:hover,
   .navbar-custom .navbar-brand:focus {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 1);
   }
   .navbar-custom .nav li a {
     color: white;
@@ -1028,7 +1028,7 @@ samp {
   }
   .navbar-custom .nav li a:hover,
   .navbar-custom .nav li a:focus {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 1);
   }
   .navbar-custom .nav li a:active {
     background: none;
