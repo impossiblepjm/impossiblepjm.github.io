@@ -1,7 +1,7 @@
 {
-  "name": "Hux Blog",
-  "short_name": "Hux Blog",
-  "description": "About an engineer & designer who loves web.",
+  "name": "Wenqin Blog",
+  "short_name": "Wenqin Blog",
+  "description": "A blog about technology and programming.",
   "icons": [{
     "src": "icons/128.png",
     "sizes": "128x128",
