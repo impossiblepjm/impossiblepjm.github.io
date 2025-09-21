@@ -3,8 +3,8 @@ title: Wenqin Blog
 SEOTitle: 问琴的博客 | Wenqin Blog
 header-img: img/home-bg.jpg
 email: impossiblepjm@gmail.com
-description: "这里是 @Wenqin问琴 的个人博客，与你一起发现更大的世界 | 要做一个有 swag 的程序员"
-keyword: "问琴, Wenqin问琴, Wenqin, 问琴的博客, Wenqin Blog, 博客, 个人网站, 互联网, Web, JavaScript, React, React Native, 前端, 设计"
+description: "这里是 @Wenqin问琴 的个人博客，与你一起品尝世界~"
+keyword: "问琴, Wenqin问琴, Wenqin, 问琴的博客, Wenqin Blog, 博客, 个人网站, 互联网, Web, BigData, 大数据, openGauss, Oracle"
 url: "https://www.881119.xyz" # your host, for absolute URL
 baseurl: "" # for example, '/blog' if your blog hosted on 'host/blog'
 
@@ -93,12 +93,6 @@ page-mathjax: false
 # Friends
 friends:
   [
-    { title: "乱序（Midare）", href: "http://mida.re/" },
-    { title: "Ebn Zhang", href: "https://ebnbin.dev/" },
-    { title: "Kun Qian", href: "http://kunq.me" },
-    { title: "Sherry Woo", href: "https://sherrywoo.me/" },
-    { title: "SmdCn", href: "http://blog.smdcn.net" },
-    { title: "JiyinYiyong", href: "http://tiye.me/" },
-    { title: "DHong Say", href: "http://dhong.co" },
-    { title: "尹峰以为", href: "http://ingf.github.io/" },
+    { title: "哪一个才是真正的我?", href: "https://www.1119888.xyz/" }
+    # { title: "Ebn Zhang", href: "https://ebnbin.dev/" },
   ]
