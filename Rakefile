@@ -48,7 +48,7 @@ task :post do
     post.puts "date: #{date}"
     post.puts "author: \"Wenqin\""
     # post.puts "header-img: \"img/post-bg-2015.jpg\""
-    
+    # post.puts "header-style: text"
     post.puts "tags: []"
     post.puts "---"
   end
