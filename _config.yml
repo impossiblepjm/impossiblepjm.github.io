@@ -57,7 +57,7 @@ kramdown:
     span:
       line_numbers: false
     block:
-      line_numbers: true
+      line_numbers: true  # 代码块行数显示
       start_line: 1
 
 # Disqus settings

@@ -49,6 +49,18 @@ task :post do
     post.puts "author: \"Wenqin\""
     # post.puts "header-img: \"img/post-bg-2015.jpg\""
     # post.puts "header-style: text"
+    # layout: keynote
+    # iframe:     "//huangxuan.me/pwa-in-my-pov/"
+    # nav-style:  "invert"
+    # hidden: true
+    # published: false
+    # catalog: false  //无法搜索  
+    # header-mask: 0.3
+    # header-img: ""
+    # header-bg-css: "linear-gradient(to right, #24b94a, #38ef7d);"
+    # header-img-credit: "@WebdesignerDepot"  //搜索header-img-credit找到配置
+    # header-img-credit-href: "medium.com/@WebdesignerDepot/poll-should-css-become-more-like-a-programming-language-c74eb26a4270"
+    # multilingual: true
     post.puts "tags: []"
     post.puts "---"
   end
