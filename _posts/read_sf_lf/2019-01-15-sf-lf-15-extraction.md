@@ -1,5 +1,6 @@
 ---
-title: "「SF-LC」15 Extraction"
+published: false
+title: "「SF-LC�?5 Extraction"
 subtitle: "Logical Foundations - Extracting ML From Coq"
 layout: post
 author: "Hux"
@@ -36,7 +37,7 @@ The file imp1.mli has been created by extraction.
 Controlling Extraction of Specific Types
 ----------------------------------------
 
-如果不做任何处理的话...生成的 `ml` 里的 `nat` 则都会是 Church Numeral...
+如果不做任何处理的话...生成�?`ml` 里的 `nat` 则都会是 Church Numeral...
 
 > We can tell Coq how to extract certain `Inductive` definitions to specific OCaml types.
 > we must say:
@@ -44,32 +45,32 @@ Controlling Extraction of Specific Types
 > 2. how each constructor should be translated
 
 ```coq
-Extract Inductive bool ⇒ "bool" [ "true" "false" ].
+Extract Inductive bool �?"bool" [ "true" "false" ].
 ```
 
 > also, for non-enumeration types (where the constructors take arguments), 
 > we give an OCaml expression that can be used as a _"recursor"_ over elements of the type. (Think Church numerals.)
 
 ```coq
-Extract Inductive nat ⇒ "int"
-  [ "0" "(fun x → x + 1)" ]
-  "(fun zero succ n →
+Extract Inductive nat �?"int"
+  [ "0" "(fun x �?x + 1)" ]
+  "(fun zero succ n �?
       if n=0 then zero () else succ (n-1))".
 ```
 
 ```coq
-Extract Constant plus ⇒ "( + )".
-Extract Constant mult ⇒ "( * )".
-Extract Constant eqb ⇒ "( = )".
+Extract Constant plus �?"( + )".
+Extract Constant mult �?"( * )".
+Extract Constant eqb �?"( = )".
 ```
 
-> 注意：保证提取结果的合理性是你的责任。
+> 注意：保证提取结果的合理性是你的责任�?
 
 ```coq
-Extract Constant minus ⇒ "( - )".
+Extract Constant minus �?"( - )".
 ```
 
-比如这么做很诱人……但是我们 Coq 的定义里 `0 - 1 = 0`, OCaml 的 `int` 则会有负数...
+比如这么做很诱人……但是我�?Coq 的定义里 `0 - 1 = 0`, OCaml �?`int` 则会有负�?..
 
 
 
@@ -97,9 +98,9 @@ let rec ceval_step st c i =
     match c with
 ```
 
-注意我们是如何使用 "recursor" 来替代 `case`, `match`, pattern matching 得。
+注意我们是如何使�?"recursor" 来替�?`case`, `match`, pattern matching 得�?
 
-recall _sum type_ 在 PLT 中的语法与语义：
+recall _sum type_ �?PLT 中的语法与语义：
 
 ```coq
 T ::= 
@@ -112,35 +113,35 @@ e ::=
 
 ```
 ```
-                      e → e' 
+                      e �?e' 
                   ------------- (work inside constructor)
                   C(e) -> C(e')
 
-                      e → e' 
+                      e �?e' 
           -------------------------------   (work on the expr match against)
-          case e of ... →  case e' of ...
+          case e of ... �? case e' of ...
 
      -----------------------------------------------  (match Left constructor, substitute)
-     case L(v) of L(x) => e1 | R(y) => e2 → e1 [v/x]
+     case L(v) of L(x) => e1 | R(y) => e2 �?e1 [v/x]
 
      -----------------------------------------------  (match Right constructor, substitute)
-     case R(v) of L(x) => e1 | R(y) => e2 → e1 [v/x]
+     case R(v) of L(x) => e1 | R(y) => e2 �?e1 [v/x]
 ```
 
 可以发现 `case` 表达式可以理解为一种特殊的 application，会将其 argument 根据某种 tag （这里为构造函数） apply 到对应的 case body 上，
-每个 case body 都是和 lambda abstraction 同构的一种 binder：
+每个 case body 都是�?lambda abstraction 同构的一�?binder�?
 
      L(x) => e1     ===   λx.e1
      R(x) => e2     ===   λx.e2 
 
      case v e1|e2   ===   (λx.e1|e2) v      -- `e1` or `e2` depends on the _tag_ wrapped on `v`
    
-这个角度也解释了 Haskell/SML 在申明函数时直接对参数写 pattern match 的理论合理性.
+这个角度也解释了 Haskell/SML 在申明函数时直接对参数写 pattern match 的理论合理�?
 
-根据经验几乎所有的 _binding_ 都可以被 desugar 成函数（即 lambda expression).
-难点在于我们如何 re-implement 这个 _tag_ 的 _switch_ 机制?
+根据经验几乎所有的 _binding_ 都可以被 desugar 成函数（�?lambda expression).
+难点在于我们如何 re-implement 这个 _tag_ �?_switch_ 机制?
 
-对于 `Inductive nat` 翻译到 OCaml `int` 时，这个机制可以用 `v =? 0` 来判断，因此我们的 _recursor_ 实现为
+对于 `Inductive nat` 翻译�?OCaml `int` 时，这个机制可以�?`v =? 0` 来判断，因此我们�?_recursor_ 实现�?
 
 ```ocaml
 fun zero succ                (* partial application  *)
@@ -148,6 +149,7 @@ fun zero succ                (* partial application  *)
        then zero ()          (* 0   case =>  (λx.e1) v *)
        else succ (n-1)       (* S n case =>  (λx.e2) v *)
 ```
+
 
 
 

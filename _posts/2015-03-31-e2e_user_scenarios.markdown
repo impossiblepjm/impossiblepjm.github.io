@@ -1,4 +1,5 @@
 ---
+published: false
 layout:     post
 title:      "Definition of End to End User Scenarios"
 date:       2015-03-31
@@ -40,7 +41,7 @@ We just put the two terms together and give it a explanation, but it can be fart
 
 * **Extend the scope**
 
-There is a interesting instance <sup>[[5]](#ref5)</sup> told that sometimes we are already satisfy of our designed UX, but if we look beyond the both ends of the designed experience by extending the scope of the timeline before and after… we may sadly realize that it’s a complete car crash outside the scope of the designed experience...
+There is a interesting instance <sup>[[5]](#ref5)</sup> told that sometimes we are already satisfy of our designed UX, but if we look beyond the both ends of the designed experience by extending the scope of the timeline before and after�?we may sadly realize that it’s a complete car crash outside the scope of the designed experience...
 
 Try to extend the scope and consider more, so can we design a much broader experience for our user.
 
@@ -76,3 +77,4 @@ That's all, thank you.
 4.<a id="ref4">[How to Create User Stories, Scenarios, and Cases](https://www.newfangled.com/how-to-tell-the-users-story/)</a>
 
 5.<a id="ref5">[Designing end-to-end user experiences. | 90 Percent Of Everything](http://www.90percentofeverything.com/2008/11/11/designing-end-to-end-user-experiences/)</a>
+

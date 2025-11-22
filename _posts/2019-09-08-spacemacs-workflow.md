@@ -1,4 +1,5 @@
 ---
+published: false
 layout: post
 title: "My Spacemacs Workflow"
 subtitle: 'From Vim to Spacemacs'
@@ -62,3 +63,4 @@ I tend to open multiple _workspace_. Though people might found Vim tabs useful, 
 ### Buffers
 
 `SPC b b`
+

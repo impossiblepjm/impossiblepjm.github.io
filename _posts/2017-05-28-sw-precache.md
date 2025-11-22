@@ -1,4 +1,5 @@
 ---
+published: false
 layout: post
 title: How does SW-Precache works?
 author: "Hux"
@@ -21,8 +22,8 @@ The core files involving in sw-precache are mainly three:
 ```
 service-worker.tmpl  
 lib/  
- ├ sw-precache.js  
- └ functions.js
+ �?sw-precache.js  
+ �?functions.js
 ```
 
 `sw-precache.js` is the main entry of the module. It reads the configuration, processes parameters, populates the `service-worker.tmpl` template and writes the result into specified file. And`functions.js` is just a module containing bunch of external functions which would be all injected into the generated service worker file as helpers.
@@ -44,7 +45,7 @@ var precacheConfig = [
 ]
 ```
 
-It’s not difficult to see that it’s a list of relative urls and MD5 hashes. In fact, one thing that `sw-precache.js` do in the build time is to calculate hash of each file that it asked to “precache” from `staticFileGlobs` parameter.
+It’s not difficult to see that it’s a list of relative urls and MD5 hashes. In fact, one thing that `sw-precache.js` do in the build time is to calculate hash of each file that it asked to “precache�?from `staticFileGlobs` parameter.
 
 In `sw.js`, `precacheConfig` would be transformed into a ES6 Map with structure `Map {absoluteUrl => cacheKey}` as below. Noticed that I omit the origin part (e.g. `http://localhost`) for short.
 
@@ -56,7 +57,7 @@ In `sw.js`, `precacheConfig` would be transformed into a ES6 Map with structure 
 }
 ```
 
-Instead of using raw URL as the cache key, sw-precache append a `_sw-precache=[hash]` to the end of each URL when populating, updating its cache and even fetching these subresouces. Those `_sw-precache=[hash]` are what we called **cache-busting parameter\***. It can prevent service worker from responding and caching out-of-date responses found in browsers’ HTTP cache indefinitely.
+Instead of using raw URL as the cache key, sw-precache append a `_sw-precache=[hash]` to the end of each URL when populating, updating its cache and even fetching these subresouces. Those `_sw-precache=[hash]` are what we called **cache-busting parameter\***. It can prevent service worker from responding and caching out-of-date responses found in browsers�?HTTP cache indefinitely.
 
 Because each build would re-calculate hashes and re-generate a new `sw.js` with new `precacheConfig` containing those new hashes, `sw.js` can now determine the version of each subresources thus decide what part of its cache needs a update. **This is pretty similar with what we commonly do when realizing long-term caching with webpack or gulp-rev, to do a byte-diff ahead of runtime.**
 
@@ -93,7 +94,7 @@ Although the comments in source code have elaborated everything well, I wanna hi
 
 ### Should Respond?
 
-Firstly, we need to determine whether this request was included in our “pre-caching list”. If it was, this request should have been pre-fetched and pre-cached thus we can respond it directly from cache.
+Firstly, we need to determine whether this request was included in our “pre-caching list�? If it was, this request should have been pre-fetched and pre-cached thus we can respond it directly from cache.
 
 ```js
 // sw.js*  
@@ -111,7 +112,7 @@ One interesting feature that sw-precache provided is `navigationFallback`(previo
 
 It is presented for SPA using History API based routing, allowing responding arbitrary URLs with one single HTML entry defined in `navigationFallback`, kinda reimplementing a Nginx rewrite in service worker\*. Do noticed that service worker only intercept document (navigation request) inside its scope (and any resources referenced in those documents of course). So navigation towards outside scope would not be effected.
 
-_\* `navigateFallbackWhitelist` can be provided to limit the “rewrite” scope._
+_\* `navigateFallbackWhitelist` can be provided to limit the “rewrite�?scope._
 
 ### Respond from Cache
 
@@ -129,7 +130,7 @@ event.respondWith(
 );
 ```
 
-_\* The code was “ES6-fied” with error handling part removed._
+_\* The code was “ES6-fied�?with error handling part removed._
 
 ## Cache Management Recap
 
@@ -235,15 +236,15 @@ As its name implied, sw-precache is designed specifically for the needs of preca
 
 ### Precaching is NOT free
 
-So don’t precached everything. Sw-precache use a [“On Install — as a dependency”](https://jakearchibald.com/2014/offline-cookbook/#on-install-as-a-dependency) strategy for your precache configs. A huge list of requests would delay the time service worker finishing installing and, in addition, wastes users’ bandwidth and disk space.
+So don’t precached everything. Sw-precache use a [“On Install — as a dependency”](https://jakearchibald.com/2014/offline-cookbook/#on-install-as-a-dependency) strategy for your precache configs. A huge list of requests would delay the time service worker finishing installing and, in addition, wastes users�?bandwidth and disk space.
 
 For instance, if you wanna build a offline-capable blogs. You had better not include things like `'posts/*.html` in `staticFileGlobs`. It would be a huge disaster to data-sensitive people if you have hundreds of posts. Use a Runtime Caching instead.
 
-### “App Shell”
+### “App Shell�?
 
 > A helpful analogy is to think of your App Shell as the code and resources that would be published to an app store for a native iOS or Android application.
 
-Though I always consider that the term “App Shell” is too narrow to cover its actual usages now, It is widely used and commonly known. I personally prefer calling them **“Web Installation Package”** straightforward because they can be truly installed into users’ disks and our web app can boot up directly from them in any network environments. The only difference between “Web Installation Package” and iOS/Android App is that we need strive to limit it within a reasonable size.
+Though I always consider that the term “App Shell�?is too narrow to cover its actual usages now, It is widely used and commonly known. I personally prefer calling them **“Web Installation Package�?* straightforward because they can be truly installed into users�?disks and our web app can boot up directly from them in any network environments. The only difference between “Web Installation Package�?and iOS/Android App is that we need strive to limit it within a reasonable size.
 
 Precaching is perfect for this kinda resources such as entry html, visual placeholders, offline pages etc., because they can be static in one version, small-sized, and most importantly, part of critical rendering path. We wanna put first meaningful paint ASAP to our user thus we precache them to eliminate HTTP roundtrip time.
 
@@ -254,3 +255,4 @@ BTW, if you are using HTML5 Application Cache before, sw-precache is really a pe
 Sw-precache is just one of awesome tools that can help you build service worker. If you are planing to add some service worker power into your website, Don’t hesitate to checkout sw-toolbox, sw-helper (a new tool Google is working on) and many more from communities.
 
 That’s all. Wish you enjoy!
+

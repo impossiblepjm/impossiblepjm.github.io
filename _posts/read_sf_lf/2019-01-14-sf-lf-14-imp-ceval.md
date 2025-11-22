@@ -1,5 +1,6 @@
 ---
-title: "„ÄåSF-LC„Äç14 ImpCEvalFun"
+published: false
+title: "„ÄåSF-LC„Ä?4 ImpCEvalFun"
 subtitle: "Logical Foundations - An Evaluation Function For Imp"
 layout: post
 author: "Hux"
@@ -28,8 +29,8 @@ Step-Indexed Evaluator
 ```coq
 Notation "'LETOPT' x <== e1 'IN' e2"
    := (match e1 with
-         | Some x ‚áí e2
-         | None ‚áí None
+         | Some x ‚á?e2
+         | None ‚á?None
        end)
    (right associativity, at level 60).
 
@@ -37,21 +38,21 @@ Open Scope imp_scope.
 Fixpoint ceval_step (st : state) (c : com) (i : nat)
                     : option state :=
   match i with
-  | O ‚áí None       (* depth-limit hit! *)
-  | S i' ‚áí
+  | O ‚á?None       (* depth-limit hit! *)
+  | S i' ‚á?
     match c with
-      | SKIP ‚áí
+      | SKIP ‚á?
           Some st
-      | l ::= a1 ‚áí
+      | l ::= a1 ‚á?
           Some (l !-> aeval st a1 ; st)
-      | c1 ;; c2 ‚áí
+      | c1 ;; c2 ‚á?
           LETOPT st' <== ceval_step st c1 i' IN    (* option bind *)
           ceval_step st' c2 i'
-      | TEST b THEN c1 ELSE c2 FI ‚áí
+      | TEST b THEN c1 ELSE c2 FI ‚á?
           if (beval st b)
             then ceval_step st c1 i'
             else ceval_step st c2 i'
-      | WHILE b1 DO c1 END ‚áí
+      | WHILE b1 DO c1 END ‚á?
           if (beval st b1)
           then LETOPT st' <== ceval_step st c1 i' IN
                ceval_step st' c i'
@@ -99,6 +100,7 @@ Proof.
   intros c st st' Hce.
   induction Hce.
 ```
+
 
 
 

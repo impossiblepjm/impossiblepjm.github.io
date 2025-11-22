@@ -1,5 +1,6 @@
 ---
-title: "„ÄåSF-PLF„Äç10 Sub"
+published: false
+title: "„ÄåSF-PLF„Ä?0 Sub"
 subtitle: "Programming Language Foundations - Subtyping (Â≠êÁ±ªÂûãÂåñ)"
 layout: post
 author: "Hux"
@@ -129,7 +130,7 @@ In soundness proof
 - subtyping only affects Canonical Forms + T_Sub case in induction
 
 
-> Lemma: If Gamma ‚ä¢ \x:S1.t2 ‚àà T, then there is a type S2 such that x‚ä¢>S1; Gamma ‚ä¢ t2 ‚àà S2 and S1 ‚Üí S2 <: T.
+> Lemma: If Gamma ‚ä?\x:S1.t2 ‚à?T, then there is a type S2 such that x‚ä?S1; Gamma ‚ä?t2 ‚à?S2 and S1 ‚Ü?S2 <: T.
 
 why `T` not arrow? Top...
 
@@ -137,6 +138,7 @@ why `T` not arrow? Top...
 if including Bottom...many proof becomes hard, canonical form need to say...might be Bottom?
 
 > no, no value has type Bottom (Void)...
+
 
 
 

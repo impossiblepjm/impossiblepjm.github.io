@@ -1,5 +1,6 @@
 ---
-title: "「SF-LC」7 Ind Prop"
+published: false
+title: "「SF-LC�? Ind Prop"
 subtitle: "Logical Foundations - Inductively Defined Propositions (归纳定义命题)"
 layout: post
 author: "Hux"
@@ -21,7 +22,7 @@ Besides:
 
 ```coq
 Theorem even_bool_prop : ∀n,
-  evenb n = true ↔ ∃k, n = double k.
+  evenb n = true �?∃k, n = double k.
  (*bool*)                 (*prop*)
 ```
 
@@ -51,9 +52,9 @@ So we can literally translate them into a GADT:
 ### Inductive Definition of Evenness
 
 ```coq
-Inductive even : nat → Prop :=
+Inductive even : nat �?Prop :=
   | ev_0  : even 0
-  | ev_SS : ∀n, even n → even (S (S n)). 
+  | ev_SS : ∀n, even n �?even (S (S n)). 
 
 Check even_SS.
 (* ==> : forall n : nat, even n -> even (S (S n)) *)
@@ -64,13 +65,13 @@ There are two ways to understand the `even` here:
 
 ### 1. A Property of `nat` and two theorems (Intuitively) 
 
-> the thing we are defining is not a `Type`, but rather a function `nat -> Prop` — i.e., a property of numbers. 
+> the thing we are defining is not a `Type`, but rather a function `nat -> Prop` �?i.e., a property of numbers. 
 
 we have two ways to provide an evidence to show the `nat` is `even`, either or:
 1. it's `0`, we can immediately conclude it's `even`.
 2. for any `n`, if we can provide a evidence that `n` is `even`, then `S (S n)` is `even` as well.
 
-> We can think of the definition of `even` as defining a Coq property `even : nat → Prop`, together with primitive theorems `ev_0 : even 0` and `ev_SS : ∀ n, even n → even (S (S n))`.
+> We can think of the definition of `even` as defining a Coq property `even : nat �?Prop`, together with primitive theorems `ev_0 : even 0` and `ev_SS : ∀ n, even n �?even (S (S n))`.
 
 
 ### 2. An "Indexed" GADT and two constructors (Technically)
@@ -100,7 +101,7 @@ it's called an _index_ and will form a family of type indexed by `nat` (to type 
 From this perspective, there is an alternative way to write this GADT:
 
 ```coq
-Inductive even : nat → Prop :=
+Inductive even : nat �?Prop :=
 | ev_0                         : even 0
 | ev_SS (n : nat) (H : even n) : even (S (S n)).
 ```
@@ -168,8 +169,8 @@ We can prove the inersion property by ourselves:
 
 ```coq
 Theorem ev_inversion :
-  ∀(n : nat), even n →
-    (n = 0) ∨ (∃n', n = S (S n') ∧ even n').
+  ∀(n : nat), even n �?
+    (n = 0) �?(∃n', n = S (S n') �?even n').
 Proof.
   intros n E.
   destruct E as [ | n' E'].
@@ -199,7 +200,7 @@ Similar to induction on inductively defined data such as `list`:
 
 #### Notes on induction
 
-_The principle of induction_ is to prove `P(n-1) -> P(n)` (多米诺) for some (well-founded partial order) set of `n`. 
+_The principle of induction_ is to prove `P(n-1) -> P(n)` (多米�? for some (well-founded partial order) set of `n`. 
 
 Here, we are induction over "the set of numbers fullfilling the property `even`". 
 Noticed that we r proving things over this set, meaning we already have it (i.e. a proof, or a evidence) in premises, instead of proving the `even`ness of the set.
@@ -217,7 +218,7 @@ Noticed that we r proving things over this set, meaning we already have it (i.e.
 
 #### Also, Structual Induction is one kind of Math. Induction
 
-> 和标准的数学归纳法等价于良序原理一样，结构归纳法也等价于良序原理。
+> 和标准的数学归纳法等价于良序原理一样，结构归纳法也等价于良序原理�?
 
 > ...A _well-founded_ _partial order_ is defined on the structures...
 > ...Formally speaking, this then satisfies the premises of an _axiom of well-founded induction_...
@@ -240,17 +241,17 @@ Just as a single-argument proposition defines a _property_, 性质
 a two-argument proposition defines a _relation_. 关系
 
 ```coq
-Inductive le : nat → nat → Prop :=
+Inductive le : nat �?nat �?Prop :=
   | le_n n                : le n n
   | le_S n m (H : le n m) : le n (S m).
 
-Notation "n ≤ m" := (le n m).
+Notation "n �?m" := (le n m).
 ```
 
 > It says that there are two ways to _give evidence_ that one number is less than or equal to another:
 
 1. either same number
-2. or give evidence that `n ≤ m` then we can have `n ≤ m + 1`.
+2. or give evidence that `n �?m` then we can have `n �?m + 1`.
 
 and we can use the same tactics as we did for properties.
 
@@ -323,7 +324,7 @@ _Definition of RegExp in formal language can be found in FCT/CC materials_
 
 ```coq
 Inductive reg_exp {T : Type} : Type :=
-  | EmptySet                 (* ∅ *)
+  | EmptySet                 (* �?*)
   | EmptyStr                 (* ε *)
   | Char (t : T)
   | App (r1 r2 : reg_exp)    (* r1r2 *)
@@ -335,7 +336,7 @@ Inductive reg_exp {T : Type} : Type :=
 > Note that this definition is _polymorphic_. 
 > We depart slightly in that _we do not require the type `T` to be finite_. (difference not significant here)
 
-> `reg_exp T` describe _strings_ with characters drawn from `T` — that is, __lists of elements of `T`__. 
+> `reg_exp T` describe _strings_ with characters drawn from `T` �?that is, __lists of elements of `T`__. 
 
 
 ### Matching
@@ -350,7 +351,7 @@ e.g.
 somewhat type-level computing !
 
 ```coq
-Inductive exp_match {T} : list T → reg_exp → Prop :=
+Inductive exp_match {T} : list T �?reg_exp �?Prop :=
 | MEmpty : exp_match [] EmptyStr
 | MChar x : exp_match [x] (Char x)
 | MApp s1 re1 s2 re2
@@ -448,12 +449,12 @@ Qed.                           (* the fun fact is that we can really think the _
 (** Recursively collecting all characters that occur in a regex **)
 Fixpoint re_chars {T} (re : reg_exp) : list T :=
   match re with
-  | EmptySet ⇒ []
-  | EmptyStr ⇒ []
-  | Char x ⇒ [x]
-  | App re1 re2 ⇒ re_chars re1 ++ re_chars re2
-  | Union re1 re2 ⇒ re_chars re1 ++ re_chars re2
-  | Star re ⇒ re_chars re
+  | EmptySet �?[]
+  | EmptyStr �?[]
+  | Char x �?[x]
+  | App re1 re2 �?re_chars re1 ++ re_chars re2
+  | Union re1 re2 �?re_chars re1 ++ re_chars re2
+  | Star re �?re_chars re
   end.
 ```
 
@@ -476,8 +477,8 @@ One interesting/confusing features is that `induction` over a term that's _insuf
 
 ```coq
 Lemma star_app: ∀T (s1 s2 : list T) (re : @reg_exp T),
-  s1 =~ Star re →
-  s2 =~ Star re →
+  s1 =~ Star re �?
+  s2 =~ Star re �?
   s1 ++ s2 =~ Star re.
 Proof.
   intros T s1 s2 re H1.
@@ -517,7 +518,7 @@ Case Study: Improving Reflection (互映)
 > we often need to relate boolean computations to statements in `Prop`
 
 ```coq
-Inductive reflect (P : Prop) : bool → Prop :=
+Inductive reflect (P : Prop) : bool �?Prop :=
 | ReflectT (H : P) : reflect P true
 | ReflectF (H : ¬P) : reflect P false.
 ```
@@ -571,7 +572,7 @@ Require Export Coq.Strings.Ascii.
 Definition string := list ascii.
 ```
 
-Coq 标准库中的 ASCII 字符串也是归纳定义的，不过我们这里为了之前定义的 match relation 用 `list ascii`.
+Coq 标准库中�?ASCII 字符串也是归纳定义的，不过我们这里为了之前定义的 match relation �?`list ascii`.
 
 > to define regex matcher over `list X` i.e. polymorphic lists.
 > we need to be able to _test equality_ for each `X` etc.
@@ -590,7 +591,7 @@ Check paper [Regular-expression derivatives reexamined - JFP 09]() as well.
 
 ```coq
 Lemma app_exists : ∀(s : string) re0 re1,
-    s =~ App re0 re1 ↔ ∃s0 s1, s = s0 ++ s1 ∧ s0 =~ re0 ∧ s1 =~ re1.
+    s =~ App re0 re1 �?∃s0 s1, s = s0 ++ s1 �?s0 =~ re0 �?s1 =~ re1.
 ```
 
 this _helper rules_ is written for the sake of convenience:
@@ -601,15 +602,15 @@ this _helper rules_ is written for the sake of convenience:
 
 ```coq
 Lemma app_ne : ∀(a : ascii) s re0 re1,
-    a :: s =~ (App re0 re1) ↔
-    ([ ] =~ re0 ∧ a :: s =~ re1) ∨
-    ∃s0 s1, s = s0 ++ s1 ∧ a :: s0 =~ re0 ∧ s1 =~ re1.
+    a :: s =~ (App re0 re1) �?
+    ([ ] =~ re0 �?a :: s =~ re1) �?
+    ∃s0 s1, s = s0 ++ s1 �?a :: s0 =~ re0 �?s1 =~ re1.
 ```
 the second rule is more interesting. It states the _property_ of `app`:
-> App re0 re1 匹配 a::s 当且仅当  (re0 匹配空字符串 且 a::s 匹配 re1)  或  (s=s0++s1，其中 a::s0 匹配 re0 且 s1 匹配 re1)。
+> App re0 re1 匹配 a::s 当且仅当  (re0 匹配空字符串 �?a::s 匹配 re1)  �? (s=s0++s1，其�?a::s0 匹配 re0 �?s1 匹配 re1)�?
 
 
-这两条对后来的证明很有帮助，`app_exists` 反演出来的 existential 刚好用在 `app_ne` 中.
+这两条对后来的证明很有帮助，`app_exists` 反演出来�?existential 刚好用在 `app_ne` �?
 > https://github.com/jiangsy/SoftwareFoundation/blob/47543ce8b004cd25d0e1769f7444d57f0e26594d/IndProp.v
 
 
@@ -619,7 +620,7 @@ the relation _`re'` is a derivative of `re` on `a`_ is defind as follows:
 
 ```coq
 Definition is_der re (a : ascii) re' :=
-  ∀s, a :: s =~ re ↔ s =~ re'.
+  ∀s, a :: s =~ re �?s =~ re'.
 ```
 
 ##### 4. 实现 derive
@@ -630,12 +631,12 @@ In paper we have:
     ∂ₐ(r · s) = ∂ₐr · s + ν(r) · ∂ₐs       -- subscriprt "a" meaning "respective to a" 
 
     where 
-      ν(r) = nullable(r) ? ε : ∅ 
+      ν(r) = nullable(r) ? ε : �?
 
 In our Coq implementation, `nullable(r) == match_eps(r)`, 
 
 Since we know that 
-`∀r, ∅ · r = ∅`, 
+`∀r, �?· r = ∅`, 
 `∀r, ε · r = r`, 
 we can be more straightforward by expanding out `v(r)`:
 
@@ -646,3 +647,4 @@ Fixpoint derive (a : ascii) (re : @reg_exp ascii) : @reg_exp ascii :=
       then Union (App (derive a r1) r2) (derive a r2)      (**  ∂ₐr · s + ∂ₐs **)
       else App (derive a r1) r2                            (**  ∂ₐr · s       **)
 ```
+

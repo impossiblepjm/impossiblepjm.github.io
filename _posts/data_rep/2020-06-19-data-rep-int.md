@@ -1,6 +1,7 @@
 ---
+published: false
 title: "Data Representation - Integer"
-subtitle: "「数据表示」整数"
+subtitle: "「数据表示」整�?
 layout: post
 author: "Hux"
 header-style: text
@@ -331,3 +332,4 @@ References
 
 - <https://en.wikipedia.org/wiki/Integer_(computer_science)>
 - <https://www3.ntu.edu.sg/home/ehchua/programming/java/datarepresentation.html>
+

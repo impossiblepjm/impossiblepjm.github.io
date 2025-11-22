@@ -1,5 +1,6 @@
 ---
-title: "ã€ŒSF-LCã€9 ProofObjects"
+published: false
+title: "ã€ŒSF-LCã€? ProofObjects"
 subtitle: "Logical Foundations - The Curry-Howard Correspondence "
 layout: post
 author: "Hux"
@@ -27,7 +28,7 @@ The fundamental idea of Coq is that:
 > _provability_ in Coq is represented by _concrete evidence_. When we construct the proof of a basic proposition, we are actually _building a tree of evidence_, which can be thought of as a data structure.
 
 e.g.
-- implication like `A â†’ B`, its proof will be an _evidence transformer_: a recipe for converting evidence for A into evidence for B.
+- implication like `A â†?B`, its proof will be an _evidence transformer_: a recipe for converting evidence for A into evidence for B.
 
 > Proving manipulates evidence, much as programs manipuate data.
 
@@ -111,7 +112,7 @@ in Coq's _logical universe_ (where we carry out proofs), to give implication:
 So instead of writing proof scripts e.g._
 
 ```coq
-Theorem ev_plus4 : âˆ€n, even n â†’ even (4 + n).
+Theorem ev_plus4 : âˆ€n, even n â†?even (4 + n).
 Proof.
   intros n H. simpl.
   apply ev_SS.
@@ -123,9 +124,9 @@ Qed.
 we can give proof object, which is a _function_ here, directly!
 
 ```coq
-Definition ev_plus4' : âˆ€n, even n â†’ even (4 + n) :=    (* âˆ€ is syntax for Pi? *)
-  fun (n : nat)    â‡’ 
-  fun (H : even n) â‡’
+Definition ev_plus4' : âˆ€n, even n â†?even (4 + n) :=    (* âˆ€ is syntax for Pi? *)
+  fun (n : nat)    â‡?
+  fun (H : even n) â‡?
     ev_SS (S (S n)) (ev_SS n H).
 
 
@@ -156,14 +157,14 @@ Now we call them `dependent type function`
 ```coq
   âˆ€(x:nat), nat 
 = âˆ€(_:nat), nat 
-= nat â†’ nat
+= nat â†?nat
 
   âˆ€n, âˆ€(E : even n), even (n + 2).
 = âˆ€n, âˆ€(_ : even n), even (n + 2).
-= âˆ€n, even n â†’ even (n + 2).
+= âˆ€n, even n â†?even (n + 2).
 ```
 
-> In general, `P â†’ Q` is just syntactic sugar for `âˆ€ (_:P), Q`.
+> In general, `P â†?Q` is just syntactic sugar for `âˆ€ (_:P), Q`.
 
 TaPL also mention this fact for `Pi`.
 
@@ -171,7 +172,7 @@ TaPL also mention this fact for `Pi`.
 Q&A - Slide 15
 --------------
 
-1. `âˆ€ n, even n â†’ even (4 + n)`. (`2 + n = S (S n)`)
+1. `âˆ€ n, even n â†?even (4 + n)`. (`2 + n = S (S n)`)
 
 
 
@@ -183,7 +184,7 @@ If we can build proofs by giving explicit terms rather than executing tactic scr
 you may be wondering whether we can _build programs using tactics_? Yes!
 
 ```coq
-Definition add1 : nat â†’ nat.
+Definition add1 : nat â†?nat.
   intro n.
   Show Proof.      
 (** 
@@ -251,7 +252,7 @@ Wow...
 
 ```coq
 Inductive and (P Q : Prop) : Prop :=
-| conj : P â†’ Q â†’ and P Q.
+| conj : P â†?Q â†?and P Q.
 
 Print prod.
 (* ===>
@@ -269,9 +270,9 @@ similar to `prod` (product) type... more connections happening here.
 A _very direct_ proof:
 
 ```coq
-Definition and_comm'_aux P Q (H : P âˆ§ Q) : Q âˆ§ P :=
+Definition and_comm'_aux P Q (H : P âˆ?Q) : Q âˆ?P :=
   match H with
-  | conj HP HQ â‡’ conj HQ HP
+  | conj HP HQ â‡?conj HQ HP
   end.
 ```
 
@@ -281,8 +282,8 @@ Definition and_comm'_aux P Q (H : P âˆ§ Q) : Q âˆ§ P :=
 
 ```coq
 Inductive or (P Q : Prop) : Prop :=
-| or_introl : P â†’ or P Q
-| or_intror : Q â†’ or P Q.
+| or_introl : P â†?or P Q
+| or_intror : Q â†?or P Q.
 ```
 
 this explains why `destruct` works but `split` not..
@@ -294,15 +295,15 @@ Q&A - Slide 22 + 24
 Both Question asked about what's the type of some expression
 
 ```coq
-fun P Q R (H1: and P Q) (H2: and Q R) â‡’
+fun P Q R (H1: and P Q) (H2: and Q R) â‡?
     match (H1,H2) with
-    | (conj _ _ HP _, conj _ _ _ HR) â‡’ conj P R HP HR
+    | (conj _ _ HP _, conj _ _ _ HR) â‡?conj P R HP HR
     end.
 
-fun P Q H â‡’
+fun P Q H â‡?
     match H with
-    | or_introl HP â‡’ or_intror Q P HP
-    | or_intror HQ â‡’ or_introl Q P HQ
+    | or_introl HP â‡?or_intror Q P HP
+    | or_intror HQ â‡?or_introl Q P HQ
     end.
 ```
 But if you simply `Check` on them, you will get errors saying:
@@ -351,8 +352,8 @@ And the questions're still given as if they're inside the modules we defined our
 > To give evidence for an existential quantifier, we package a witness `x` together with a proof that `x` satisfies the property `P`:
 
 ```coq
-Inductive ex {A : Type} (P : A â†’ Prop) : Prop :=
-| ex_intro : âˆ€x : A, P x â†’ ex P.
+Inductive ex {A : Type} (P : A â†?Prop) : Prop :=
+| ex_intro : âˆ€x : A, P x â†?ex P.
 
 Check ex.                    (* ===> *) : (?A -> Prop) -> Prop 
 Check even.                  (* ===> *) : nat -> Prop  (* ?A := nat  *)
@@ -365,7 +366,7 @@ one interesting fact is, _outside_ of our module, the built-in Coq behaves diffe
 ```coq
 Check ev.                    (* ===> *) : âˆ€ (A : Type), (A -> Prop) -> Prop
 Check even.                  (* ===> *) : nat -> Prop  (* A := nat  *)
-Check ex (fun n => even n)   (* ===> *) : âˆƒ (n : nat) , even n : Prop  (* WAT !? *)
+Check ex (fun n => even n)   (* ===> *) : âˆ?(n : nat) , even n : Prop  (* WAT !? *)
 ```
 
 A example of explicit proof object (that inhabit this type):
@@ -381,9 +382,9 @@ the `ex_intro` take `even` first then `4`...not sure why the order becomes this.
 Check (ex_intro).            (* ===> *) : forall (P : ?A -> Prop) (x : ?A), P x -> ex P
 ```
 
-To prove `ex P`, given a witness `x` and a proof of `P x`. This desugar to `âˆƒ x, P x`
+To prove `ex P`, given a witness `x` and a proof of `P x`. This desugar to `âˆ?x, P x`
 
-- the `P` here, is getting applied when we define prop `âˆƒ x, P x`.
+- the `P` here, is getting applied when we define prop `âˆ?x, P x`.
 - but the `x` is not mentioned in type constructor...so it's a _existential type_.
   - I don't know why languages (including Haskell) use `forall` for _existential_ tho.
 
@@ -406,7 +407,7 @@ Equality
 --------
 
 ```coq
-Inductive eq {X:Type} : X â†’ X â†’ Prop :=
+Inductive eq {X:Type} : X â†?X â†?Prop :=
 | eq_refl : âˆ€x, eq x x.
 
 Notation "x == y" := (eq x y)
@@ -477,9 +478,10 @@ In general, the `inversion` tactic...
  - that does not contain any free variables.
 
 Groundness
- - æ ¹åŸºæ€§?
+ - æ ¹åŸºæ€?
 
 > Weird `Axiomness` might break the soundness of generated code in OCaml...
+
 
 
 

@@ -1,5 +1,6 @@
 ---
-title: "「SF-PLF」17 UseTactics"
+published: false
+title: "「SF-PLF�?7 UseTactics"
 subtitle: "Programming Language Foundations - Tactic Library For Coq"
 layout: post
 author: "Hux"
@@ -29,23 +30,23 @@ Tactics for Naming and Performing Inversion
 
 ```coq
 Theorem ceval_deterministic: ∀c st st1 st2,
-  st =[ c ]⇒ st1 →
-  st =[ c ]⇒ st2 →
+  st =[ c ]�?st1 �?
+  st =[ c ]�?st2 �?
   st1 = st2.
 intros c st st1 st2 E1 E2. (* 以往如果想给 Hypo 命名必须说全 *)
-introv E1 E2.              (* 现在可以忽略 forall 的部分 *)
+introv E1 E2.              (* 现在可以忽略 forall 的部�?*)
 ```
 
 ### `inverts`
 
 ```coq
-(* was... 需要 subst, clear *)
+(* was... 需�?subst, clear *)
 - inversion H. subst. inversion H2. subst. 
 (* now... *)
 - inverts H. inverts H2. 
 
 
-(* 可以把 invert 出来的东西放在 goal 的位置让你自己用 intro 命名！*)
+(* 可以�?invert 出来的东西放�?goal 的位置让你自己用 intro 命名�?)
 inverts E2 as.
 ```
 
@@ -58,7 +59,7 @@ inverts E2 as.
 Tactics for N-ary Connectives
 -----------------------------
 
-> Because Coq encodes conjunctions and disjunctions using binary constructors ∧ and ∨...
+> Because Coq encodes conjunctions and disjunctions using binary constructors �?and �?..
 > to work with a `N`-ary logical connectives...
 
 ### `splits`
@@ -157,4 +158,5 @@ Tactics for Advanced Lemma Instantiation
 ### Working on `lets` 
 
 ### Working on `applys`, `forwards` and `specializes`
+
 

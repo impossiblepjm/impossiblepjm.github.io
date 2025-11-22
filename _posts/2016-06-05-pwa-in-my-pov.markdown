@@ -1,6 +1,7 @@
 ---
+published: false
 layout:     keynote
-title:      "Progressive Web App 之我见"
+title:      "Progressive Web App 之我�?
 subtitle:   "🎞  Slides:Progressive Web App, in my points of view"
 iframe:     "//huangxuan.me/pwa-in-my-pov/"
 nav-style:  "invert"
@@ -37,4 +38,5 @@ tags:
 - Why Web? 
 
 
-### Power by [Yanshuo.io（演说.io）](https://yanshuo.io)
+### Power by [Yanshuo.io（演�?io）](https://yanshuo.io)
+

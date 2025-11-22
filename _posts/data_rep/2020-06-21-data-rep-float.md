@@ -1,4 +1,5 @@
 ---
+published: false
 title: "Data Representation - Floating Point Numbers"
 subtitle: "「数据表示」浮点数"
 layout: post
@@ -39,7 +40,7 @@ where a real number can be represented as such:
 
 - _significand_, or _mantissa_, 有效数字, 尾数
 - _base_, or _radix_ 底数
-- _exponent_, 幂
+- _exponent_, �?
 
 So where is the _floating point_? It's the `.` of `1.2345`. Imaging the dot
 can be float to the left by one to make the representation `.12345`.
@@ -207,7 +208,7 @@ since they are also special by being the only two demanding an `0x00` exponent:
              binary                |    hex    |
 --------------------------------------------------------
 0 00000000 00000000000000000000000 = 0000 0000 = +0
-1 00000000 00000000000000000000000 = 8000 0000 = −0
+1 00000000 00000000000000000000000 = 8000 0000 = �?
 
 0 11111111 00000000000000000000000 = 7f80 0000 = +infinity
 1 11111111 00000000000000000000000 = ff80 0000 = −infinity
@@ -329,3 +330,4 @@ References
 
 - <https://en.wikipedia.org/wiki/Floating-point_arithmetic>
 - <https://www3.ntu.edu.sg/home/ehchua/programming/java/datarepresentation.html>
+

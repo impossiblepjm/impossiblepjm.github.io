@@ -1,6 +1,7 @@
 ---
+published: false
 layout:     keynote
-title:      "都 2015 年了，CSS 怎么还是这么糟糕"
+title:      "�?2015 年了，CSS 怎么还是这么糟糕"
 subtitle:   "🎞  Slides:CSS Still Sucks 2015"
 iframe:     "//huangxuan.me/css-sucks-2015/"
 date:       2015-12-28
@@ -18,11 +19,11 @@ tags:
 
 <div class="visible-md visible-lg">
 <img src="//huangxuan.me/css-sucks-2015/attach/qrcode.png" width="350"/>
-<small class="img-hint">你也可以通过扫描二维码在手机上观看</small>
+<small class="img-hint">你也可以通过扫描二维码在手机上观�?/small>
 </div>
 
 
-这个 Web Slides 开源在[我的 Github 上](https://github.com/Huxpro/css-sucks-2015)，欢迎你帮助我完善这个展示文稿，你可以给我提 issue，可以 fork & pull request。如果它能帮助到你了，希望你还能不吝啬 star 一下这个项目
+这个 Web Slides 开源在[我的 Github 上](https://github.com/Huxpro/css-sucks-2015)，欢迎你帮助我完善这个展示文稿，你可以给我提 issue，可�?fork & pull request。如果它能帮助到你了，希望你还能不吝�?star 一下这个项�?
 
 
 ### Catalog
@@ -113,3 +114,4 @@ require('./PageA.scss');
 ### Thanks
 
 [Reveal.js](http://lab.hakim.se/reveal-js)
+

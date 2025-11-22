@@ -1,5 +1,6 @@
 ---
-title: "ã€ŒSF-LCã€2 Induction"
+published: false
+title: "ã€ŒSF-LCã€? Induction"
 subtitle: "Logical Foundations - Proof by Induction"
 layout: post
 author: "Hux"
@@ -42,8 +43,8 @@ This can be simply proved by _simplication_ bcuz the definition of `+` is define
 ```coq
 Fixpoint plus (n : nat) (m : nat) : nat :=
   match n with
-    | O â‡’ m
-    | S n' â‡’ S (plus n' m)
+    | O â‡?m
+    | S n' â‡?S (plus n' m)
   end.
 ```
 
@@ -88,7 +89,7 @@ Our 2nd try is to use _case analysis_ (`destruct`), but the proof stucks in _ind
 Princeple of induction over natural numbers (i.e. _mathematical induction_)
 
 ```coq
-P(0); âˆ€n' P(n') â†’ P(S n')  ====>  P(n)
+P(0); âˆ€n' P(n') â†?P(S n')  ====>  P(n)
 ```
 
 In Coq, like `destruct`, `induction` break `P(n)` into 2 subgoals:
@@ -114,7 +115,7 @@ Proof.
   - (* n = 0 *)
     simpl. reflexivity.
   - (* n = S n' *)
-    simpl. rewrite â†’ IHn'. reflexivity. Qed
+    simpl. rewrite â†?IHn'. reflexivity. Qed
 ```
 
 Noticed that the definition of `minus`:
@@ -132,6 +133,7 @@ Noticed that the definition of `minus`:
 ---------
 
 `rewrite` would do a (DFS) preorder traversal in the syntax tree.
+
 
 
 

@@ -1,5 +1,6 @@
 ---
-title: "「SF-QC」2 TypeClasses"
+published: false
+title: "「SF-QC�? TypeClasses"
 subtitle: "Quickcheck - A Tutorial on Typeclasses in Coq"
 layout: post
 author: "Hux"
@@ -15,10 +16,10 @@ tags:
 Considerring printing different types with this common idiom:
 
 ```coq
-showBool : bool → string
-showNat : nat → string
-showList : {A : Type} (A → string) → (list A) → string
-showPair : {A B : Type} (A → string) → (B → string) → A * B → string
+showBool : bool �?string
+showNat : nat �?string
+showList : {A : Type} (A �?string) �?(list A) �?string
+showPair : {A B : Type} (A �?string) �?(B �?string) �?A * B �?string
 
 Definition showListOfPairsOfNats := showList (showPair showNat showNat)   (* LOL *)
 ```
@@ -37,11 +38,11 @@ Basics
 
 ```coq
 Class Show A : Type := {
-  show : A → string
+  show : A �?string
 }.
 
 Instance showBool : Show bool := {
-  show := fun b:bool ⇒ if b then "true" else "false"
+  show := fun b:bool �?if b then "true" else "false"
 }.
 ```
 
@@ -78,9 +79,9 @@ Compute (showTwo Red Green).
 
 > The parameter `` `{Show A}`` is a _class constraint_, which states that the function showOne is expected to be applied only to types A that belong to the Show class.
 
-> Concretely, this constraint should be thought of as an _extra parameter_ to showOne supplying _evidence_ that A is an instance of Show — i.e., it is essentially just a show function for A, which is implicitly invoked by the expression show a.
+> Concretely, this constraint should be thought of as an _extra parameter_ to showOne supplying _evidence_ that A is an instance of Show �?i.e., it is essentially just a show function for A, which is implicitly invoked by the expression show a.
 
-读时猜测（后来发现接下来有更正确的解释）：`show` 在 name resolution 到 `class Show` 时就可以根据其参数的 type（比如 `T`）infer 出「我们需要一个 `Show T` 的实现（`instance`，其实就是个 table）」，在 Haskell/Rust 中这个 table 会在 lower 到 IR 时才 made explicit，而 Coq 这里的语法就已经强调了这里需要 implicitly-and-inferred `{}` 一个 table，这个 table 的名字其实不重要，只要其 type 是被 `A` parametrized 的 `Show` 就好了，类似 ML 的 `functor` 或者 Java 的 generic `interface`。
+读时猜测（后来发现接下来有更正确的解释）：`show` �?name resolution �?`class Show` 时就可以根据其参数的 type（比�?`T`）infer 出「我们需要一�?`Show T` 的实现（`instance`，其实就是个 table）」，�?Haskell/Rust 中这�?table 会在 lower �?IR 时才 made explicit，�?Coq 这里的语法就已经强调了这里需�?implicitly-and-inferred `{}` 一�?table，这�?table 的名字其实不重要，只要其 type 是被 `A` parametrized �?`Show` 就好了，类似 ML �?`functor` 或�?Java �?generic `interface`�?
 
 This is _Ad-hoc polymorphism_.
 
@@ -105,19 +106,19 @@ a : A
 ```coq
 Class Eq A :=
   {
-    eqb: A → A → bool;
+    eqb: A �?A �?bool;
   }.
 
 Notation "x =? y" := (eqb x y) (at level 70).
 
 Instance eqBool : Eq bool :=
   {
-    eqb := fun (b c : bool) ⇒ 
+    eqb := fun (b c : bool) �?
        match b, c with
-         | true, true ⇒ true
-         | true, false ⇒ false
-         | false, true ⇒ false
-         | false, false ⇒ true
+         | true, true �?true
+         | true, false �?false
+         | false, true �?false
+         | false, false �?true
        end
   }.
 
@@ -128,10 +129,10 @@ Instance eqNat : Eq nat :=
 ```
 
 > Why should we need to define a typeclass for boolean equality when _Coq's propositional equality_ (`x = y`) is completely generic? 
-> while it makes sense to _claim_ that two values `x` and `y` are equal no matter what their type is, it is not possible to write a _decidable equality checker_ for arbitrary types. In particular, equality at types like `nat → nat` is undecidable.
+> while it makes sense to _claim_ that two values `x` and `y` are equal no matter what their type is, it is not possible to write a _decidable equality checker_ for arbitrary types. In particular, equality at types like `nat �?nat` is undecidable.
 
 `x = y` 返回一个需要去证的 `Prop` (relational) 而非 executable `Fixpoint` (functional)  
-因为 function 的 equality 有时候会 undeciable，所以才需要加 Functional Extensionality `Axiom`（见 LF-06）
+因为 function �?equality 有时候会 undeciable，所以才需要加 Functional Extensionality `Axiom`（见 LF-06�?
 
 ```coq
 Instance eqBoolArrowBool: Eq (bool -> bool) :=
@@ -145,7 +146,7 @@ Compute (negb =? negb).  (* ==> true *)
 Compute (id =? negb).    (* ==> false *)
 ```
 
-这里这个 `eqb` 的定义也是基于 extensionality 的定义，如果考虑到 effects（divergence、IO）是很容易 break 的（类似 parametricity）
+这里这个 `eqb` 的定义也是基�?extensionality 的定义，如果考虑�?effects（divergence、IO）是很容�?break 的（类似 parametricity�?
 
 
 
@@ -179,11 +180,11 @@ Slightly more complicated example: typical list:
 
 ```coq
 (* the book didn't use any from ListNotation *)
-Fixpoint showListAux {A : Type} (s : A → string) (l : list A) : string :=
+Fixpoint showListAux {A : Type} (s : A �?string) (l : list A) : string :=
   match l with
-    | nil ⇒ ""
-    | cons h nil ⇒ s h
-    | cons h t ⇒ append (append (s h) ", ") (showListAux s t)
+    | nil �?""
+    | cons h nil �?s h
+    | cons h t �?append (append (s h) ", ") (showListAux s t)
   end.
 Instance showList {A : Type} `{Show A} : Show (list A) :=
   {
@@ -219,7 +220,7 @@ It's better to establish dependencies between typeclasses, similar with OOP `cla
 ```coq
 Class Ord A `{Eq A} : Type :=
   {
-    le : A → A → bool
+    le : A �?A �?bool
   }.
 Check Ord. (* ==>
 Ord
@@ -263,7 +264,7 @@ How It works
 
 ### Implicit Generalization
 
-所以 `` `{...}`` 这个 "backtick" notation is called _implicit generalization_，比 implicit `{}` 多做了一件自动 generalize 泛化 free varabile 的事情。
+所�?`` `{...}`` 这个 "backtick" notation is called _implicit generalization_，比 implicit `{}` 多做了一件自�?generalize 泛化 free varabile 的事情�?
 
 > that was added to Coq to support typeclasses but that can also be used to good effect elsewhere.
 
@@ -290,7 +291,7 @@ Print showOne1.
 
 > This automatic insertion can be disabled by writing `@`, so a bare occurrence of `showOne1` means the same as `@showOne1 _ _`
 
-这里的 witness `H` 即 `A` implements `Show` 的 evidence，本质就是个 table or record，可以 written more explicitly:
+这里�?witness `H` �?`A` implements `Show` �?evidence，本质就是个 table or record，可�?written more explicitly:
 
 ```coq
 Definition showOne2 `{_ : Show A} (a : A) : string :=
@@ -321,7 +322,7 @@ fun (A : Type) (H : Show A) (a : A) => "The value is " ++ @show A H a     (* <--
 
 #### vs. Haskell
 
-顺便，Haskell 的话，`Show` 是可以直接 inferred from the use of `show` 得
+顺便，Haskell 的话，`Show` 是可以直�?inferred from the use of `show` �?
 
 ```haskell
 Prelude> showOne a = show a
@@ -329,7 +330,7 @@ Prelude> :t showOne
 showOne :: Show a => a -> String
 ```
 
-但是 Coq 不行，会退化上「上一个定义的 instance Show」，还挺奇怪的（
+但是 Coq 不行，会退化上「上一个定义的 instance Show」，还挺奇怪的�?
 
 ```coq
 Definition showOne5 a : string :=  (* not generalized *)
@@ -358,7 +359,7 @@ Check Ord.
 (* ==> Ord : forall A : Type, Eq A -> Type *)
 ```
 
-`Ord` type 写详细的话可以是：
+`Ord` type 写详细的话可以是�?
 
 ```coq
 Ord : forall (A : Type), (H: Eq A) -> Type
@@ -394,9 +395,9 @@ Compute (implicit_fun 2 3)
 ```
 
 这里可以看到 Coq 的所有语法都是正交的（非常牛逼……）
-- `()`/`{}` 控制是否是 implicit argument
-- `` ` ``-prefix 控制是否做 implicit generalization
-  - N.B. 可能你忘记了但是 `→` is degenerated `∀` (`Π`)，所以 generalization 自然会生成 `fun`
+- `()`/`{}` 控制是否�?implicit argument
+- `` ` ``-prefix 控制是否�?implicit generalization
+  - N.B. 可能你忘记了但是 `→` is degenerated `∀` (`Π`)，所�?generalization 自然会生�?`fun`
 
 
 ### Records are Products
@@ -423,16 +424,16 @@ Definition r : Point := {| px := 2; py := 4 |}.
 Compute (r.(px) + r.(py)).
 ```
 
-和 OCaml 一样是 nominal typing 而非 structural typing。
-类似于 OCaml 中的 record 其实到 backend 了就会和 tuple 等价：都会 lower 到 Heap Block），
-Coq 中的 Record 其实和 Pair/Product 也是等价：都是 arity 为 2 的 Inductive type：
+�?OCaml 一样是 nominal typing 而非 structural typing�?
+类似�?OCaml 中的 record 其实�?backend 了就会和 tuple 等价：都�?lower �?Heap Block），
+Coq 中的 Record 其实�?Pair/Product 也是等价：都�?arity �?2 �?Inductive type�?
 
 ```coq
 Inductive Point : Set := 
-  | Build_Point : nat → nat → Point.
+  | Build_Point : nat �?nat �?Point.
 ```
 
-我仿造 `Print px.` 输出的定义模拟了一下：
+我仿�?`Print px.` 输出的定义模拟了一下：
 
 ```coq
 Inductive Point2 : Set := 
@@ -446,8 +447,8 @@ Compute (r2.(px2) + r2.(py2)).                        (* => 6 *)
 Definition r2 : Point2 := {| px2 := 2; py2 := 4 |}.   (* Error: px2 is not a projection *)
 ```
 
-可以发现 dot notation 是可以工作的，`.` 应该只是一个 pipe
-但是 `{|...|}` 不知道为什么这里会认为 `px2` 不是一个 record projection.
+可以发现 dot notation 是可以工作的，`.` 应该只是一�?pipe
+但是 `{|...|}` 不知道为什么这里会认为 `px2` 不是一�?record projection.
 
 
 > Note that the field names have to be different. Any given field name can belong to only one record type. 
@@ -461,7 +462,7 @@ Definition r2 : Point2 := {| px2 := 2; py2 := 4 |}.   (* Error: px2 is not a pro
 > Internally, a typeclass declaration is elaborated into a _parameterized_ `Record` declaration:
 
 ```coq
-Class Show A : Type := { show : A → string }.
+Class Show A : Type := { show : A �?string }.
 
 Print Show.
 Record Show (A : Type) : Type := 
@@ -532,7 +533,7 @@ Print eg42.
 eg42 = @show nat showNat 42 : string
 ```
 
-different with `Compute`, `Print` 居然还可以这么把所有 implicit argument (after inferred) 都给 print 出来……
+different with `Compute`, `Print` 居然还可以这么把所�?implicit argument (after inferred) 都给 print 出来…�?
 
 type inferrence: 
 
@@ -549,7 +550,7 @@ Print HintDb typeclass_instances.  (* too much to be useful *)
 ```
 
 "hint database" to me is better understood as a reverse of environment or typing context `Γ`. Though specialized with only `Instance` there.
-（这么一看实现一个 Scala 的 `Implicit` 也不难啊）
+（这么一看实现一�?Scala �?`Implicit` 也不难啊�?
 
 Coq can even print what's happening during this proof search!
 
@@ -597,7 +598,7 @@ Typeclasses and Proofs
 ```coq
 Class EqDec (A : Type) {H : Eq A} := 
   { 
-    eqb_eq : ∀ x y, x =? y = true ↔ x = y 
+    eqb_eq : ∀ x y, x =? y = true �?x = y 
   }.
 ```
 
@@ -608,14 +609,14 @@ Instance eqdecNat : EqDec nat :=
   }.
 ```
 
-这里可以用于抽象 LF-07 的 reflection
+这里可以用于抽象 LF-07 �?reflection
 
 
 ### Substructures
 
 > Naturally, it is also possible to have typeclass instances as members of other typeclasses: these are called _substructures_. 
 
-这里的 `relation` 来自 Prelude 不过和 LF-11 用法一样：
+这里�?`relation` 来自 Prelude 不过�?LF-11 用法一样：
 
 ```coq
 Require Import Coq.Relations.Relation_Definitions.
@@ -625,7 +626,7 @@ Class Reflexive (A : Type) (R : relation A) :=
   }.
 Class Transitive (A : Type) (R : relation A) :=
   {
-    transitivity : ∀ x y z, R x y → R y z → R x z
+    transitivity : ∀ x y z, R x y �?R y z �?R x z
   }.
 ```
 
@@ -637,7 +638,7 @@ Class PreOrder (A : Type) (R : relation A) :=
 
 > The syntax `:>` indicates that each `PreOrder` can be seen as a `Reflexive` and `Transitive` relation, so that, any time a reflexive relation is needed, a preorder can be used instead.
 
-这里的 `:>` 方向和 subtyping 的 _subsumption_ 是反着的……跟 SML 的 ascription `:>` 一样……
+这里�?`:>` 方向�?subtyping �?_subsumption_ 是反着的……跟 SML �?ascription `:>` 一样…�?
 
 - subtyping  `T :> S` : value of `S` can safely be used as value of `T`
 - ascription `P :> R` : value of `P` can safely be used as value of `R`
@@ -663,7 +664,7 @@ Print decidable.
 
 > .. where `{P} + {¬ P}` is an "informative disjunction" of `P` and `¬P`.
 
-即两个 evidence（参考 LF-07)
+即两�?evidence（参�?LF-07)
 
 ```coq
 Class Dec (P : Prop) : Type :=
@@ -678,9 +679,9 @@ Class Dec (P : Prop) : Type :=
 
 > Monads are an extremely powerful tool for organizing and streamlining code in a wide range of situations where computations can be thought of as yielding a result along with some kind of "effect."
 
-说话很严谨「in a wide range of situations where ... "effect"」
+说话很严谨「in a wide range of situations where ... "effect"�?
 
-> most older projects simply define their own monads and monadic notations — sometimes typeclass-based, often not — while newer projects use one of several generic libraries for monads. Our current favorite (as of Summer 2017) is the monad typeclasses in Gregory Malecha's `ext-lib` package:
+> most older projects simply define their own monads and monadic notations �?sometimes typeclass-based, often not �?while newer projects use one of several generic libraries for monads. Our current favorite (as of Summer 2017) is the monad typeclasses in Gregory Malecha's `ext-lib` package:
 
 <https://github.com/coq-ext-lib/coq-ext-lib/blob/v8.5/theories/Structures/Monad.v>
 
@@ -691,17 +692,17 @@ Open Scope monad_scope.
 ```
 
 ```coq
-Class Monad (M : Type → Type) : Type := { 
-  ret : ∀ {T : Type}, T → M T ;
-  bind : ∀ {T U : Type}, M T → (T → M U) → M U
+Class Monad (M : Type �?Type) : Type := { 
+  ret : ∀ {T : Type}, T �?M T ;
+  bind : ∀ {T U : Type}, M T �?(T �?M U) �?M U
 }.
 
 Instance optionMonad : Monad option := {
   ret T x := Some x ;
   bind T U m f :=
     match m with
-      None ⇒ None
-    | Some x ⇒ f x
+      None �?None
+    | Some x �?f x
     end
 }.
 ```
@@ -744,7 +745,7 @@ Would better explicitly typed. searching can be stupid
 
 > One of the ways in which Coq's typeclasses differ most from Haskell's is the lack, in Coq, of an automatic check for "overlapping instances."
 
-在 Haskell 中一大 use case 是可以做类似 C++ 的 partial specification（偏特化）
+�?Haskell 中一�?use case 是可以做类似 C++ �?partial specification（偏特化�?
 
 - Check out [this](https://kseo.github.io/posts/2017-02-05-avoid-overlapping-instances-with-closed-type-families.html) on the pros and cons of overlapping instances in Haskell
 - Check out [this] (https://www.ibm.com/developerworks/community/blogs/12bb75c9-dfec-42f5-8b55-b669cc56ad76/entry/c__e6_a8_a1_e6_9d_bf__e7_a9_b6_e7_ab_9f_e4_bb_80_e4_b9_88_e6_98_af_e7_89_b9_e5_8c_96?lang=en) on template partial specification in C++
@@ -794,3 +795,4 @@ The original paper on typeclasses In Coq:
 - Matthieu Sozeau and Nicolas Oury. First-Class Type Classes. TPHOLs 2008.
   <https://link.springer.com/chapter/10.1007%2F978-3-540-71067-7_23>
   
+

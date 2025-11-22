@@ -1,5 +1,6 @@
 ---
-title: "「SF-PLF」16 LibTactics"
+published: false
+title: "「SF-PLF�?6 LibTactics"
 subtitle: "Programming Language Foundations - A Collection of Handy General-Purpose Tactics"
 layout: post
 author: "Hux"
@@ -13,3 +14,4 @@ tags:
 ---
 
 TBD
+

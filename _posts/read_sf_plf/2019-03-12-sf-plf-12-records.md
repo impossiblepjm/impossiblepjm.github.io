@@ -1,5 +1,6 @@
 ---
-title: "「SF-PLF」12 Records"
+published: false
+title: "「SF-PLF�?2 Records"
 subtitle: "Programming Language Foundations - Adding Records To STLC"
 layout: post
 author: "Hux"
@@ -33,6 +34,7 @@ T ::=                          Types:
 
 
 ## Formalizing Records
+
 
 
 

@@ -1,6 +1,7 @@
 ---
+published: false
 title: "Data Representation - TODO"
-subtitle: "「数据表示」待写"
+subtitle: "「数据表示」待�?
 layout: post
 author: "Hux"
 header-style: text
@@ -20,3 +21,4 @@ tags:
   - Tagged Pointer
   - NaN tagging
   - Tagged Integer (SMI)
+

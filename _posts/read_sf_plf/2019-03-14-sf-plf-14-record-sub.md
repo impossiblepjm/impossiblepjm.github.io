@@ -1,5 +1,6 @@
 ---
-title: "„ÄåSF-PLF„Äç14 RecordSub"
+published: false
+title: "„ÄåSF-PLF„Ä?4 RecordSub"
 subtitle: "Programming Language Foundations - Subtyping with Records"
 layout: post
 author: "Hux"
@@ -17,7 +18,7 @@ tags:
 Inductive ty : Type :=
   (* record types *)
   | RNil : ty
-  | RCons : string ‚Üí ty ‚Üí ty ‚Üí ty.
+  | RCons : string ‚Ü?ty ‚Ü?ty ‚Ü?ty.
 ```
 
 we need typecon to identify record...
@@ -28,13 +29,14 @@ Inductive tm : Type :=
   | rproj ...?  isn't it as well?
   (* record terms *)
   | rnil : tm
-  | rcons : string ‚Üí tm ‚Üí tm ‚Üí tm.
+  | rcons : string ‚Ü?tm ‚Ü?tm ‚Ü?tm.
 ``
 
 as a list...
 
 
 for Record, can compiler reorder the fields? (SML and OCaml)
+
 
 
 

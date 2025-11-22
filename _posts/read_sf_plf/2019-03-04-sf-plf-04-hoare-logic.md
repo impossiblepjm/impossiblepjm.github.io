@@ -1,5 +1,6 @@
 ---
-title: "「SF-PLF」4 HoareAsLogic"
+published: false
+title: "「SF-PLF�? HoareAsLogic"
 subtitle: "Programming Language Foundations - Hoare Logic as a Logic"
 layout: post
 author: "Hux"
@@ -13,3 +14,4 @@ tags:
 ---
 
 TBD
+

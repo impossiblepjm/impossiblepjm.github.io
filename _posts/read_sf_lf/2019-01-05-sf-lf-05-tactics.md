@@ -1,5 +1,6 @@
 ---
-title: "ã€ŒSF-LCã€5 Tactics"
+published: false
+title: "ã€ŒSF-LCã€? Tactics"
 subtitle: "Logical Foundations - More Basic Tactics"
 layout: post
 author: "Hux"
@@ -77,39 +78,39 @@ Qed.
                          relation
 
 > function is defined as _a special kind of binary relation_. 
-> it requires `xRy1 âˆ§ xRy2 â†’ y1 = y2`  called "functional" or "univalent", "right-unique", or "deterministic"
-> and also `âˆ€x âˆˆ X, âˆƒy âˆˆ Y s.t. xRy`   called "left-total"
+> it requires `xRy1 âˆ?xRy2 â†?y1 = y2`  called "functional" or "univalent", "right-unique", or "deterministic"
+> and also `âˆ€x âˆ?X, âˆƒy âˆ?Y s.t. xRy`   called "left-total"
 
-                    x       â†¦      f(x)
-                  input     â†¦     output
-                argument    â†¦     value
+                    x       â†?     f(x)
+                  input     â†?    output
+                argument    â†?    value
 
-                    X       â†¦       Y
-                 domain åŸŸ  â†¦  co-domain é™ªåŸŸ      
-           what can go into â†¦  what possibly come out
+                    X       â†?      Y
+                 domain åŸ? â†? co-domain é™ªåŸŸ      
+           what can go into â†? what possibly come out
 
-                  A âŠ† X     â†¦  f(A) = {f(x) | x âˆˆ A}
-                            â†¦     image
-                            â†¦  what actually come out
+                  A âŠ?X     â†? f(A) = {f(x) | x âˆ?A}
+                            â†?    image
+                            â†? what actually come out
 
-    fâ»Â¹(B)={x âˆˆ X|f(x) âˆˆ B} â†¦     B âŠ† Y
-                 preimage   â†¦
+    fâ»Â?B)={x âˆ?X|f(x) âˆ?B} â†?    B âŠ?Y
+                 preimage   â†?
 
-                when A = X  â†¦       Y
-                            â†¦     range  
+                when A = X  â†?      Y
+                            â†?    range  
                                image of domain
 
 Besides subset, the notation of `image` and `pre-image` can be applied to _element_ as well.
 However, by definition:
-- the image    of an element `x` of domain    â†¦  always single element of codomain (singleton set)
-- the preimage of an element `y` of codomain  â†¦  may be empty, or one, or many!
-  - `<= 1 â†¦ 1` : injective   (left-unique)
-  - `>= 1 â†¦ 1` : surjective  (right-total)
-  - `   1 â†¦ 1` : bijective
+- the image    of an element `x` of domain    â†? always single element of codomain (singleton set)
+- the preimage of an element `y` of codomain  â†? may be empty, or one, or many!
+  - `<= 1 â†?1` : injective   (left-unique)
+  - `>= 1 â†?1` : surjective  (right-total)
+  - `   1 â†?1` : bijective
 
 Noted that the definition of "function" doesn't require "right-total"ity) until we have `surjective`.
 
-graph = `[(x, f(x))]`, these points form a "curve", çœŸçš„æ˜¯å›¾åƒ
+graph = `[(x, f(x))]`, these points form a "curve", çœŸçš„æ˜¯å›¾åƒ?
 
 ### Total vs Partial
 
@@ -137,9 +138,9 @@ Besides, `f(x)` can be `undefined`. (not "left-total", might not have "right")
 
 All talk about the propeties of _preimage_!
 
-- Injective:  `<= 1 â†¦ 1` or `0, 1 â†¦ 1` (distinctness) 
-- Surjective: `>= 1 â†¦ 1` (at least 1 in the domain)
-- Bijective:  `   1 â†¦ 1` (intersection of Inj and Surj, so only `1` preimage, _one-to-one correspondence_)
+- Injective:  `<= 1 â†?1` or `0, 1 â†?1` (distinctness) 
+- Surjective: `>= 1 â†?1` (at least 1 in the domain)
+- Bijective:  `   1 â†?1` (intersection of Inj and Surj, so only `1` preimage, _one-to-one correspondence_)
 
 
 ### _injectivitiy_ and _disjointness_, or `inversion`.
@@ -149,7 +150,7 @@ Recall the definition of `nat`:
 ```coq
 Inductive nat : Type :=
 | O : nat
-| S : nat â†’ nat.
+| S : nat â†?nat.
 ```
 
 Besides there are two forms of `nat` (for `destruct` and `induction`), there are more facts:
@@ -198,8 +199,8 @@ Proof.
 ### Converse of injectivity
 
 ```coq
-Theorem f_equal : âˆ€(A B : Type) (f: A â†’ B) (x y: A),
-  x = y â†’ f x = f y.
+Theorem f_equal : âˆ€(A B : Type) (f: A â†?B) (x y: A),
+  x = y â†?f x = f y.
 Proof. 
   intros A B f x y eq. 
   rewrite eq. reflexivity. Qed.
@@ -274,7 +275,7 @@ Considering:
 
 ```coq
 Theorem double_injective: âˆ€n m,
-        double n = double m â†’ n = m.
+        double n = double m â†?n = m.
 ```
 
 if we begin with `intros n m. induction n.`
@@ -347,5 +348,6 @@ what is this really saying...
 One way: good old paper and pencil
 
 5 mins is good time!
+
 
 

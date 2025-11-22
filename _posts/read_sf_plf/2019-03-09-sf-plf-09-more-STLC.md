@@ -1,5 +1,6 @@
 ---
-title: "「SF-PLF」9 MoreStlc"
+published: false
+title: "「SF-PLF�? MoreStlc"
 subtitle: "Programming Language Foundations - More on The Simply Typed Lambda-Calculus"
 layout: post
 author: "Hux"
@@ -19,7 +20,7 @@ tags:
 Simple Extensions to STLC
 -------------------------
 
-> 其实这一部分我好像没有任何必要做笔记……
+> 其实这一部分我好像没有任何必要做笔记…�?
 
 
 ### Numbers
@@ -36,7 +37,7 @@ See `StlcProp.v` exercise `stlc_arith`.
 SF here, same as TaPL, treat it _less derived_ by _compute the type `T1` from `t1`. 
 - but TaPL treat it by desugar to `λ` later on, here we directly "execute" it via substituion.
 
-我想这里有一个原因是， `λ` 必须要可以独立被 typed，但是这时候我们还没有 `t1`，无法计算出 `T1`。而 `let` 的形式中包括了 `t1`，所以可以直接计算:
+我想这里有一个原因是�?`λ` 必须要可以独立被 typed，但是这时候我们还没有 `t1`，无法计算出 `T1`。�?`let` 的形式中包括�?`t1`，所以可以直接计�?
 
 ```coq
 t ::=                Terms
@@ -152,26 +153,26 @@ T ::=                Types
 > 难道不是每个计算都不会在这样的类型中_居留_吗？
 
 > Where Unit really comes in handy is in richer languages with side effects
-> 在更丰富的语言中，使用 Unit 类型来处理副作用（side effect） 会很方便
+> 在更丰富的语言中，使用 Unit 类型来处理副作用（side effect�?会很方便
 
 
 
 ### Sum Type (Disjointed Union)
 
 > deal with values that can take two distinct forms -- binary sum type
-> 两个截然不同的 ... "二元和"类型
+> 两个截然不同�?... "二元�?类型
 
 > We create elements of these types by _tagging_ elements of the component types
 > 我们在创建这些类型的值时，会为值_标记_上其"成分"类型
 
-标签 `inl`, `inr` 可以看做为函数，即 _Data Constructor_
+标签 `inl`, `inr` 可以看做为函数，�?_Data Constructor_
 
     inl : Nat  -> Nat + Bool
     inr : Bool -> Nat + Bool
 
 > that _"inject"_ (注入) elements of `Nat` or `Bool` into the left and right components of the sum type `Nat+Bool`
 
-不过这里并没有把他们作为 function 来形式化，而是把 `inl` `inr` 作为关键字，把 `inl t` `inr t` 作为 primitive syntactic form...
+不过这里并没有把他们作为 function 来形式化，而是�?`inl` `inr` 作为关键字，�?`inl t` `inr t` 作为 primitive syntactic form...
 
 
 - In PLT slide, we use `L          (e)` and say the `T2` would be "guessed" to produce `T1 + T2`, as _TaPL option 1_
@@ -250,14 +251,14 @@ T ::=                Types
 
 > In principle, we could encode lists using pairs, sums and _recursive types_. (and _type operator_ to give the type a name in SystemFω)
 
-> 但是 recursive type 太 non-trivial 了……于是我们直接处理为一个特殊的类型吧
+> 但是 recursive type �?non-trivial 了……于是我们直接处理为一个特殊的类型�?
 
 - in PLT slide, again, we omit the type and simply write `nil : List T`
-  - 有趣的是, Prof.Mtf 并不满意这个，因为会有 `hd nil` 这样 stuck 的可能，所以额外给了一个用 `unlist` (unempty list) 的 def
+  - 有趣的是, Prof.Mtf 并不满意这个，因为会�?`hd nil` 这样 stuck 的可能，所以额外给了一个用 `unlist` (unempty list) �?def
 
 - in PLT langF, we did use pairs + sums + recursive types: 
   - langF `nil : all('a . rec('b . unit + ('a * 'b)))`
-  - StlcE `nil : ∀α     . µβ     . unit + (α ∗ β)` 
+  - StlcE `nil : ∀α     . µβ     . unit + (α �?β)` 
 
 - in TaPL ch11, we manually provide `T` to all term (data constructor)
   - but actually, only `nil` need it! (others can be inferred by argument)
@@ -333,8 +334,8 @@ T ::=                Types
 fact = \x:Nat . if x=0 then 1 else x * (fact (pred x)))
 ```
 
-这个在 Stlc 中不被允许，因为我们在定义 `fact` 的过程中发现了一个 free 的 `fact`，要么未定义，要么不是自己。
-所以我们需要 `Fixpoint` 
+这个�?Stlc 中不被允许，因为我们在定�?`fact` 的过程中发现了一�?free �?`fact`，要么未定义，要么不是自己�?
+所以我们需�?`Fixpoint` 
 
 ```hs
 fact = fix (\fact:Nat->Nat. 
@@ -367,7 +368,7 @@ t ::=                Terms
 
 ### Records 
 
-这里的定义非常 informal:
+这里的定义非�?informal:
 
 
 ```coq
@@ -412,7 +413,7 @@ T ::=                          Types
 
 ### 其他
 
-提了一嘴 
+提了一�?
 
 - Variant 
 - Recursive type `μ`
@@ -424,7 +425,7 @@ Basically
 
 ADT = Unit + Product + Sum (Variant) + Function (Expo)
 
-但是 Coq 的 `Inductive` 还需要进一步的 Pi (Dependent Product), Sigma (Dependent Sum).
+但是 Coq �?`Inductive` 还需要进一步的 Pi (Dependent Product), Sigma (Dependent Sum).
 
 
 
@@ -434,7 +435,7 @@ Exercise: Formalizing the Extensions
 
 ### STLCE definitions
 
-基本上就是把上面的 rule 用 AST 写进来
+基本上就是把上面�?rule �?AST 写进�?
 
 
 
@@ -442,7 +443,7 @@ Exercise: Formalizing the Extensions
 
 > a bit of Coq hackery to automate searching for typing derivation
 
-基本上就是自动化的 pattern matching + tactics
+基本上就是自动化�?pattern matching + tactics
 
 ```coq
 Hint Extern 2 (has_type _ (app _ _) _) =>
@@ -455,7 +456,8 @@ Hint Extern 2 (_ = _) => compute; reflexivity.
 ```
 
 
-效果非常酷：typecheck 只需要 `eauto`，reduction 只需要 `normalize`.
+效果非常酷：typecheck 只需�?`eauto`，reduction 只需�?`normalize`.
+
 
 
 

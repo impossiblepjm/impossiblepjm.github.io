@@ -1,5 +1,6 @@
 ---
-title: "「SF-PLF」13 References"
+published: false
+title: "「SF-PLF�?3 References"
 subtitle: "Programming Language Foundations - Typing Mutable References"
 layout: post
 author: "Hux"
@@ -52,7 +53,7 @@ Syntax
 T ::= 
     | Nat
     | Unit
-    | T → T
+    | T �?T
     | Ref T
 
 t ::= 
@@ -66,18 +67,18 @@ t ::=
 Inductive ty : Type :=
   | Nat : ty
   | Unit : ty
-  | Arrow : ty → ty → ty
-  | Ref : ty → ty.
+  | Arrow : ty �?ty �?ty
+  | Ref : ty �?ty.
 
 Inductive tm : Type :=
   (* STLC with numbers: *)
   ...
   (* New terms: *)
   | unit : tm
-  | ref : tm → tm
-  | deref : tm → tm
-  | assign : tm → tm → tm
-  | loc : nat → tm.         (** 这里表示 l 的方式是 wrap 一个 nat as loc **)
+  | ref : tm �?tm
+  | deref : tm �?tm
+  | assign : tm �?tm �?tm
+  | loc : nat �?tm.         (** 这里表示 l 的方式是 wrap 一�?nat as loc **)
 ```
 
 
@@ -101,21 +102,21 @@ Inductive tm : Type :=
 ### Values and Substitution
 
 ```coq
-Inductive value : tm → Prop :=
+Inductive value : tm �?Prop :=
   ...
   | v_unit :     value unit
-  | v_loc  : ∀l, value (loc l).  (* <-- 注意这里是一个 Π (l:nat) . value (loc l) *)
+  | v_loc  : ∀l, value (loc l).  (* <-- 注意这里是一�?Π (l:nat) . value (loc l) *)
 ```
 
 ```coq
 Fixpoint subst (x:string) (s:tm) (t:tm) : tm :=
   match t with
   ...
-  | unit         ⇒ t
-  | ref t1       ⇒ ref (subst x s t1)
-  | deref t1     ⇒ deref (subst x s t1)
-  | assign t1 t2 ⇒ assign (subst x s t1) (subst x s t2)
-  | loc _        ⇒ t
+  | unit         �?t
+  | ref t1       �?ref (subst x s t1)
+  | deref t1     �?deref (subst x s t1)
+  | assign t1 t2 �?assign (subst x s t1) (subst x s t2)
+  | loc _        �?t
   end.
 ```
 
@@ -189,10 +190,10 @@ _constructor_ and _encapsulation_!
 ### References to Compound Types (e.g. Function Type)
 
 Previously, we use _closure_ to represent _map_, with _functional update_
-这里的"数组" （这个到底算不算数组估计都有争议，虽然的确提供了 index 但是这个显然是 O(n) 都不知道算不算 random access...
-并不是 in-place update 里面的数据的，仅仅是一个 `ref` 包住的 map 而已 （仅仅是多了可以 shared
+这里�?数组" （这个到底算不算数组估计都有争议，虽然的确提供了 index 但是这个显然�?O(n) 都不知道算不�?random access...
+并不�?in-place update 里面的数据的，仅仅是一�?`ref` 包住�?map 而已 （仅仅是多了可以 shared
 
-其实或许 `list (ref nat)` 也可以表达数组？ 反正都是 O(n) 每次都 linear search 也一样……
+其实或许 `list (ref nat)` 也可以表达数组？ 反正都是 O(n) 每次�?linear search 也一样…�?
 
 ```haskell
 
@@ -329,3 +330,4 @@ Properties
 
 References and Nontermination
 -----------------------------
+

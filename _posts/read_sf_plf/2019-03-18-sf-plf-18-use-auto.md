@@ -1,5 +1,6 @@
 ---
-title: "「SF-PLF」18 UseAuto"
+published: false
+title: "「SF-PLF�?8 UseAuto"
 subtitle: "Programming Language Foundations - Theory And Practice Of Automation In Coq Proofs"
 layout: post
 author: "Hux"
@@ -67,4 +68,5 @@ tags:
 ### Ring
 
 ### Congurence
+
 

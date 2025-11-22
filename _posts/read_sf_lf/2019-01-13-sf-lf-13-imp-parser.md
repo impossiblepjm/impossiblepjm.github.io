@@ -1,5 +1,6 @@
 ---
-title: "„ÄåSF-LC„Äç13 ImpParser"
+published: false
+title: "„ÄåSF-LC„Ä?3 ImpParser"
 subtitle: "Logical Foundations - Lexing And Parsing In Coq"
 layout: post
 author: "Hux"
@@ -39,7 +40,7 @@ Definition token := string.
 Syntax
 ------
 
-Â∏¶ error msg ÁöÑ `option`:
+Â∏?error msg Áö?`option`:
 
 ```coq
 Inductive optionE (X:Type) : Type :=
@@ -56,15 +57,15 @@ Monadic:
 ```coq
 Notation "' p <- e1 ;; e2"
    := (match e1 with
-       | SomeE p ‚áí e2
-       | NoneE err ‚áí NoneE err
+       | SomeE p ‚á?e2
+       | NoneE err ‚á?NoneE err
        end)
    (right associativity, p pattern, at level 60, e1 at next level).
 
 Notation "'TRY' ' p <- e1 ;; e2 'OR' e3"
    := (match e1 with
-       | SomeE p ‚áí e2
-       | NoneE _ ‚áí e3
+       | SomeE p ‚á?e2
+       | NoneE _ ‚á?e3
        end)
    (right associativity, p pattern,
     at level 60, e1 at next level, e2 at next level).
@@ -73,7 +74,7 @@ Notation "'TRY' ' p <- e1 ;; e2 'OR' e3"
 
 ```coq
 Definition parser (T : Type) :=
-  list token ‚Üí optionE (T * list token).
+  list token ‚Ü?optionE (T * list token).
 ```
 
 ```haskell
@@ -98,11 +99,11 @@ Coq vs. Haskell
 ```coq
 Fixpoint many_helper {T} (p : parser T) acc steps xs :=
   match steps, p xs with
-  | 0, _ ‚áí
+  | 0, _ ‚á?
       NoneE "Too many recursive calls"
-  | _, NoneE _ ‚áí
+  | _, NoneE _ ‚á?
       SomeE ((rev acc), xs)
-  | S steps', SomeE (t, xs') ‚áí
+  | S steps', SomeE (t, xs') ‚á?
       many_helper p (t :: acc) steps' xs'
   end.
 
@@ -129,8 +130,8 @@ many1L p = do x <- p
 ```coq
 Definition parseIdentifier (xs : list token) : optionE (string * list token) :=
   match xs with
-  | [] ‚áí NoneE "Expected identifier"
-  | x::xs' ‚áí if forallb isLowerAlpha (list_of_string x)
+  | [] ‚á?NoneE "Expected identifier"
+  | x::xs' ‚á?if forallb isLowerAlpha (list_of_string x)
              then SomeE (x, xs')
              else NoneE ("Illegal identifier:'" ++ x ++ "'")
   end.
@@ -142,3 +143,4 @@ ident = do x  <- lower
            xs <- many alphanum
            return (x:xs)
 ```
+

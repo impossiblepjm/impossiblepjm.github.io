@@ -52,9 +52,9 @@ task :post do
     # layout: keynote
     # iframe:     "//huangxuan.me/pwa-in-my-pov/"
     # nav-style:  "invert"
-    # hidden: true
-    # published: false
-    # catalog: false  //无法搜索  
+    # hidden: true  // 隐藏但可以搜索到, 可以用作笔记
+    # published: false // 搜索不到
+    # catalog: false
     # header-mask: 0.3
     # header-img: ""
     # header-bg-css: "linear-gradient(to right, #24b94a, #38ef7d);"

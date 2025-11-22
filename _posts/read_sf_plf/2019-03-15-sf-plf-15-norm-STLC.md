@@ -1,5 +1,6 @@
 ---
-title: "「SF-PLF」15 Norm"
+published: false
+title: "「SF-PLF�?5 Norm"
 subtitle: "Programming Language Foundations - Normalization of STLC"
 layout: post
 author: "Hux"
@@ -13,3 +14,4 @@ tags:
 ---
 
 TBD
+

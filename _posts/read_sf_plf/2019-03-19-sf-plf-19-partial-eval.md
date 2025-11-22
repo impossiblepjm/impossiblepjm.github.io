@@ -1,5 +1,6 @@
 ---
-title: "「SF-PLF」19 PE"
+published: false
+title: "「SF-PLF�?9 PE"
 subtitle: "Programming Language Foundations - Partial Evaluation"
 layout: post
 author: "Hux"
@@ -13,3 +14,4 @@ tags:
 ---
 
 TBD
+
